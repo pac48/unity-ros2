@@ -5,8 +5,7 @@
   "unity": "2022.2",
   "description": "Package Sample.",
   "dependencies": {
-    "com.stansassets.foundation": "1.0.2"
-  },
+    "com.unity.robotics.ros-tcp-connector" : "https://github.com/Unity-Technologies/ROS-TCP-Connector.git?path=/com.unity.robotics.ros-tcp-connector"},
   "keywords": [
     "keyword1",
     "keyword2",
@@ -15,17 +14,7 @@
   "license": "MIT",
   "author": {
     "name": "Stan's Assets",
-    "email": "stan@stansassets.com",
+    "email": "paulgesel@gmail.com",
     "url": "https://stansassets.com/"
-  },
-  
-  "homepage": "https://api.stansassets.com/",
-  "bugs": {
-    "url": "https://github.com/StansAssets/com.stansassets.foundation/issues",
-    "email" : "support@stansassets.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:StansAssets/com.stansassets.foundation.git"
   }
 }
