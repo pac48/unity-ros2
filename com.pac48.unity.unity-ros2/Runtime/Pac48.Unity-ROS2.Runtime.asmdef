@@ -1,0 +1,8 @@
+{
+  "name": "Pac48.Unity-ROS2.Runtime",
+  "references": [
+    "Unity.Mathematics",
+    "Unity.Burst",
+    "Unity.Robotics.ROSTCPConnector"
+  ]
+}

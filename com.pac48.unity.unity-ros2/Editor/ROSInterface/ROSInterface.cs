@@ -5,7 +5,6 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using Random = UnityEngine.Random;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
-using Unity.VisualScripting;
 
 [StructLayout(LayoutKind.Sequential)]
 [System.Serializable]

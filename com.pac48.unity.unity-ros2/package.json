@@ -4,7 +4,9 @@
   "version": "0.0.1-preview",
   "unity": "2022.2",
   "description": "Contains sensors and robots for simulation with ROS 2.",
-  "dependencies": {},
+  "dependencies": {
+    "com.unity.mathematics": "1.2.6"
+  },
   "keywords": [
     "ros 2"
   ],

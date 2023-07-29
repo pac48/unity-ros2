@@ -6,7 +6,7 @@ using UnityEngine.Jobs;
 using Unity.Jobs;
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
-using RosMessageTypes.Sensor;
+// using RosMessageTypes.Sensor;
 
 [RequireComponent(typeof(RotateLidar))]
 public class LaserScanPublisher : ROSPublisher
