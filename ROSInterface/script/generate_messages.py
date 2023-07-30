@@ -49,7 +49,8 @@ class StructCPP:
 
     def __str__(self):
         j2_template = Template(JinjaTemplate.templates["struct"])
-        data = {'name': self.name, 'fields': self.fields, 'msg_type': self.msg_type, 'ros_msg_type': self.ros_msg_type, 'all_custom_types': self.all_custom_types}
+        data = {'name': self.name, 'fields': self.fields, 'msg_type': self.msg_type, 'ros_msg_type': self.ros_msg_type,
+                'all_custom_types': self.all_custom_types}
         return j2_template.render(data, trim_blocks=True)
 
 
@@ -177,6 +178,7 @@ def convert_messages(create_struct, known_conversions):
 
     message_packages = ['std_msgs', 'geometry_msgs', 'sensor_msgs', 'nav_msgs', 'builtin_interfaces']
     for package in message_packages:
+
         directory_path = f'common_interfaces/{package}/msg/'
         file_list = os.listdir(directory_path)
         for file in file_list:
@@ -259,29 +261,66 @@ def convert_messages(create_struct, known_conversions):
         snake_str = snake_str.lower()
         return snake_str
 
+    class TypePair:
+        def __init__(self, struct_type, ros_type):
+            self.struct_type = struct_type
+            self.ros_type = ros_type
+
+    all_ros_message_types = [TypePair(key, msgs_map[key].ros_type) for key in msgs_map]
+
     includes = [camel_to_snake(v.replace('::', '/')) for v in includes]
 
     j2_template = Template(JinjaTemplate.templates["struct_header"])
-    data = {'structs': structs, 'includes': includes}
-    return j2_template.render(data, trim_blocks=True)
+    data = {'structs': structs, 'includes': includes, 'all_ros_message_types': all_ros_message_types}
+    return j2_template.render(data, trim_blocks=True), all_ros_message_types
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A Python argument parser that takes in two arguments.")
 
     # Add arguments
-    parser.add_argument("output", type=str, help="location to save output file")
-    parser.add_argument("language", type=str, help="generate code language: c++ or c#")
+    parser.add_argument("language", type=str, help="location to save output file")
+    parser.add_argument("header_dir", type=str, help="generate code language: c++ or c#")
+    parser.add_argument("src_dir", type=str, help="generate code language: c++ or c#")
 
     args = parser.parse_args()
     if args.language not in {'cpp', 'c#'}:
         raise ValueError("Argument 2 must be equal to 'cpp' or 'c#'")
     if args.language == 'cpp':
         JinjaTemplate.load('cpp')
-        contents = convert_messages(create_struct_cpp, known_conversions_cpp)
+        contents, all_ros_message_types = convert_messages(create_struct_cpp, known_conversions_cpp)
+        if not os.path.exists(os.path.join(args.header_dir)):
+            os.makedirs(os.path.join(args.header_dir))
+        if not os.path.exists(os.path.join(args.src_dir)):
+            os.makedirs(os.path.join(args.src_dir))
+        with open(os.path.join(args.header_dir, 'tmp.h'), 'w') as f:
+            f.write(contents)
+        for msg in all_ros_message_types:
+            j2_template = Template(JinjaTemplate.templates["sub_pub_header"])
+            data = {'msg': msg}
+            out = j2_template.render(data, trim_blocks=True)
+            with open(os.path.join(args.header_dir, msg.struct_type + '.h'), 'w') as f:
+                f.write(out)
+            j2_template = Template(JinjaTemplate.templates["sub_pub_impl"])
+            out = j2_template.render(data, trim_blocks=True)
+            with open(os.path.join(args.src_dir, msg.struct_type + '.cpp'), 'w') as f:
+                f.write(out)
+
+        # j2_template = Template(JinjaTemplate.templates["sub_pub_interface_header"])
+        # includes = [f'generated/{v.struct_type}' for v in all_ros_message_types]
+        # data = {'includes': includes}
+        # out = j2_template.render(data, trim_blocks=True)
+        # with open(os.path.join(args.header_dir, 'sub_pub_interface.h'), 'w') as f:
+        #     f.write(out)
+
+        j2_template = Template(JinjaTemplate.templates["sub_pub_interface_impl"])
+        includes = [f'generated/{v.struct_type}' for v in all_ros_message_types]
+        data = {'all_ros_message_types': all_ros_message_types, 'includes': includes}
+        out = j2_template.render(data, trim_blocks=True)
+        with open(os.path.join(args.src_dir, 'sub_pub_interface.cpp'), 'w') as f:
+            f.write(out)
+
     else:
         raise NotImplementedError()
         # contents = convert_messages(create_struct_cpp, known_conversions_cpp)
     # print(contents)
-    with open(args.output, 'w') as f:
-        f.write(contents)

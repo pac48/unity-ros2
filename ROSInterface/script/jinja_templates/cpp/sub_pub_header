@@ -1,0 +1,20 @@
+#pragma once
+
+#define RCLCPP__NODE_IMPL_HPP_
+#include <rclcpp/node.hpp>
+#include <rclcpp/create_subscription.hpp>
+#include "sub_pub_interface.h"
+#include "generated/tmp.h"
+
+using std::placeholders::_1;
+
+class Subscriber{{msg.struct_type}} : public BaseSubscriber {
+    rclcpp::Subscription<{{msg.ros_type}}>::SharedPtr subscriber;
+    {{msg.ros_type}} msg;
+    std::mutex mtx;
+public:
+    Subscriber{{msg.struct_type}}(const std::string &topic, rclcpp::Node::SharedPtr node);
+    void receive(void *output) override;
+private:
+    void callback(const {{msg.ros_type}}::SharedPtr new_msg);
+};

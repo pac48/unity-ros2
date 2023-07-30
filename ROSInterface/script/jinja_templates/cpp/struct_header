@@ -1,3 +1,5 @@
+#pragma once
+
 {% for include in includes -%}
 #include "{{include}}.hpp"
 {% endfor %}
@@ -5,3 +7,73 @@
 {% for struct in structs %}
 {{struct}}
 {% endfor %}
+
+
+
+//using std::placeholders::_1;
+//
+//{% for msg in all_ros_message_types %}
+//class Subscriber{{loop.index}} : public BaseSubscriber {
+//    rclcpp::Subscription<{{msg.ros_type}}>::SharedPtr subscriber;
+//    {{msg.ros_type}} msg;
+//    std::mutex mtx;
+//public:
+//    Subscriber{{loop.index}}(const std::string &topic, rclcpp::Node::SharedPtr node) {
+////        subscriber = node->create_subscription<{{msg.ros_type}}>(topic, 10, std::bind(
+////                &Subscriber{{loop.index}}::callback, this, _1));
+//subscriber = node->create_subscription<{{msg.ros_type}}>(topic, 10,[this](const {{msg.ros_type}}::SharedPtr new_msg){
+//const std::lock_guard<std::mutex> lock(mtx);
+//msg = *new_msg;
+//} );
+//    };
+//
+//    void callback(const {{msg.ros_type}}::SharedPtr new_msg) {
+//        const std::lock_guard<std::mutex> lock(mtx);
+//        msg = *new_msg;
+//    }
+//
+//    void receive(void *output) override {
+//        auto msg_struct = ({{msg.struct_type}} *) output;
+//        const std::lock_guard<std::mutex> lock(mtx);
+//        *msg_struct = msg;
+//    }
+//};
+//{% endfor %}
+//
+//
+//std::shared_ptr<BaseSubscriber>
+//createSubscriber(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node) {
+//    {% for msg in all_ros_message_types -%}
+//    if (type == "{{msg.ros_type}}") return std::make_shared<Subscriber{{loop.index}}>(topic, node);
+//    {% endfor %}
+//
+//    throw std::runtime_error("Unsupported ROS message type: " + type);
+//}
+//
+//
+//
+//
+//
+//class OdomPublisher : public BasePublisher {
+//    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publisher;
+//    nav_msgs::msg::Odometry msg;
+//public:
+//    OdomPublisher(const std::string &topic, rclcpp::Node::SharedPtr node) {
+//        publisher = node->create_publisher<nav_msgs::msg::Odometry>(topic, 10);
+//    };
+//
+//    void publish(void *input) override {
+//        auto msg_struct = (nav_msgs_Odometry *) input;
+//        // copy into msg
+//        publisher->publish(msg);
+//    }
+//};
+//
+//
+//std::shared_ptr<BasePublisher>
+//createPublisher(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node) {
+//    if (type == "nav_msgs::msg::Odometry")
+//        return std::make_shared<OdomPublisher>(topic, node);
+//    else
+//        return nullptr;
+//}

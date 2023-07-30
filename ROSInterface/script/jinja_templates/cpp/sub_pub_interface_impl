@@ -1,0 +1,14 @@
+#pragma once
+{% for include in includes -%}
+#include "{{include}}.h"
+{% endfor %}
+
+#include "sub_pub_interface.h"
+
+std::shared_ptr<BaseSubscriber>
+createSubscriber(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node) {
+    {% for msg in all_ros_message_types -%}
+    if (type == "{{msg.ros_type}}") return std::make_shared<Subscriber{{msg.struct_type}}>(topic, node);
+    {% endfor %}
+    throw std::runtime_error("Unsupported ROS message type: " + type);
+}

@@ -13,6 +13,7 @@
 #pragma warning Unknown dynamic link import/export semantics.
 #endif
 
+
 extern "C" {
 MY_LIB_API std::intptr_t Init();
 MY_LIB_API void Receive(std::intptr_t handle, char *type, char *topic, void *output);

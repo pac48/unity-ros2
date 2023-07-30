@@ -1,0 +1,21 @@
+#pragma once
+
+#include "generated/{{msg.struct_type}}.h"
+
+using std::placeholders::_1;
+
+Subscriber{{msg.struct_type}}::Subscriber{{msg.struct_type}}(const std::string &topic, rclcpp::Node::SharedPtr node) {
+    subscriber = node->create_subscription<{{msg.ros_type}}>(topic, 10, std::bind(&Subscriber{{msg.struct_type}}::callback, this, _1));
+
+};
+
+void Subscriber{{msg.struct_type}}::receive(void *output) {
+    auto msg_struct = ({{msg.struct_type}} *) output;
+    const std::lock_guard<std::mutex> lock(mtx);
+    *msg_struct = msg;
+}
+
+void Subscriber{{msg.struct_type}}::callback(const {{msg.ros_type}}::SharedPtr new_msg) {
+    const std::lock_guard<std::mutex> lock(mtx);
+    msg = *new_msg;
+}
