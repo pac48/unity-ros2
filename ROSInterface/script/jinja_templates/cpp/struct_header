@@ -1,0 +1,7 @@
+{% for include in includes -%}
+#include "{{include}}.hpp"
+{% endfor %}
+
+{% for struct in structs %}
+{{struct}}
+{% endfor %}

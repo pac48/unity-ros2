@@ -201,43 +201,25 @@ public:
     virtual void receive(void *output) {};
 };
 
-//struct nav_msgs_Odometry {
-//    std_msgs_Header header;
-//    char *child_frame_id;
-//    geometry_msgs_PoseWithCovariance pose;
-//    geometry_msgs_TwistWithCovariance twist;
-//    nav_msgs_Odometry(nav_msgs::msg::Odometry odometry) {
-//
-//    }
-//    operator nav_msgs::msg::Odometry(){
-//        nav_msgs::msg::Odometry msg;
-//        return msg;
-//    }
-//};
-
 class OdomSubscriber : public BaseSubscriber {
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscriber;
     nav_msgs::msg::Odometry msg;
+    std::mutex mtx;
 public:
     OdomSubscriber(const std::string &topic, rclcpp::Node::SharedPtr node) {
         subscriber = node->create_subscription<nav_msgs::msg::Odometry>(topic, 10, std::bind(
                 &OdomSubscriber::callback, this, _1));
     };
 
-    void callback(const nav_msgs::msg::Odometry::SharedPtr msg) {
-
+    void callback(const nav_msgs::msg::Odometry::SharedPtr new_msg) {
+        const std::lock_guard<std::mutex> lock(mtx);
+        msg = *new_msg;
     }
 
     void receive(void *output) override {
         auto msg_struct = (nav_msgs_Odometry *) output;
-        nav_msgs::msg::Odometry msg;
-//         msg = *msg_struct;
-//         *msg_struct = msg;
-        msg.header.frame_id = msg_struct->header.frame_id;
-        msg.header.stamp.sec = msg_struct->header.stamp.sec;
-        msg.header.stamp.nanosec = msg_struct->header.stamp.nanosec;
-
-        // assign from msg
+        const std::lock_guard<std::mutex> lock(mtx);
+        *msg_struct = msg;
     }
 };
 
@@ -257,7 +239,13 @@ public:
     ROSInterface() {
         auto name = "ros_node";
         rclcpp::init(1, &name);
-        node_ = std::make_shared<rclcpp::Node>("unity_ros_interface_publisher_node");
+        node_ = std::make_shared<rclcpp::Node>("unity_ros_interface_node");
+        executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
+        executor_->add_node(node_);
+        auto spin_thread_ = std::make_shared<std::thread>([this]() {
+            const std::lock_guard<std::mutex> lock(node_mtx);
+            executor_->spin_some();
+        });
     }
 
     ~ROSInterface() {
@@ -267,6 +255,7 @@ public:
     void Publish(const std::string &type, const std::string &topic, void *input) {
         auto key = type + topic;
         if (publisher_map.find(key) == publisher_map.end()) {
+            const std::lock_guard<std::mutex> lock(node_mtx);
             publisher_map[key] = createPublisher(type, topic, node_);
         }
         publisher_map[key]->publish(input);
@@ -275,15 +264,17 @@ public:
     void Receive(const std::string &type, const std::string &topic, void *output) {
         auto key = type + topic;
         if (subscriber_map.find(key) == subscriber_map.end()) {
+            const std::lock_guard<std::mutex> lock(node_mtx);
             subscriber_map[key] = createSubscriber(type, topic, node_);
         }
         subscriber_map[key]->receive(output);
     }
 
     std::shared_ptr<rclcpp::Node> node_;
+    std::shared_ptr<rclcpp::executors::MultiThreadedExecutor> executor_;
     std::unordered_map<std::string, std::shared_ptr<BasePublisher>> publisher_map;
     std::unordered_map<std::string, std::shared_ptr<BaseSubscriber>> subscriber_map;
-    std::mutex mtx;
+    std::mutex node_mtx;
 
 };
 
