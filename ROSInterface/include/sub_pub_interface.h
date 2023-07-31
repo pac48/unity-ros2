@@ -1,6 +1,8 @@
 #pragma once
+
 #include "memory"
-#include "rclcpp/node.hpp"
+#include <rclcpp/rclcpp.hpp>
+#include "generated/tmp.h"
 
 class BaseSubscriber {
 public:
@@ -13,7 +15,7 @@ public:
 };
 
 std::shared_ptr<BasePublisher>
-createPublisher(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node);
+createROSPublisher(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node);
 
 std::shared_ptr<BaseSubscriber>
-createSubscriber(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node);
+createROSSubscriber(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node);

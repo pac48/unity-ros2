@@ -1,10 +1,5 @@
 #pragma once
-
-#define RCLCPP__NODE_IMPL_HPP_
-#include <rclcpp/node.hpp>
-#include <rclcpp/create_subscription.hpp>
 #include "sub_pub_interface.h"
-#include "generated/tmp.h"
 
 using std::placeholders::_1;
 
