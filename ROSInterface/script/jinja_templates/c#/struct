@@ -1,0 +1,11 @@
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct {{name}} {
+{% for field in fields -%}
+{% if field.length>1 -%}[MarshalAs(UnmanagedType.ByValArray, SizeConst = {{field.length}})]
+{% endif -%}
+public {% if field.length==1 %}{{field.declaration}}{% elif field.length==-1 %}IntPtr{% else %}{{field.declaration}}[]{% endif %} {{field.name}}; {% if field.default_value != '' -%}// = {{field.default_value}}{% endif %}
+{%- if field.length==-1 %}
+long {{field.name}}_length;
+{%- endif %}
+{% endfor -%}
+}

@@ -28,15 +28,9 @@ class Field:
         self.default_value = default_value
         self.known_conversions = known_conversions
         if self.msg_type in self.known_conversions:
-            self.declaration = self.known_conversions[self.msg_type](self.name, self.length)
+            self.declaration = self.known_conversions[self.msg_type]
         else:
             self.declaration = convert_custom_cpp(self.msg_type, self.name, self.length)
-
-    # def __str__(self):
-    #     if self.msg_type in self.known_conversions:
-    #         return self.known_conversions[self.msg_type](self.name, self.length)
-    #     else:
-    #         return convert_custom_cpp(self.msg_type, self.name, self.length)
 
 
 class StructCPP:
@@ -54,90 +48,49 @@ class StructCPP:
         return j2_template.render(data, trim_blocks=True)
 
 
-def convert_int8_cpp(string, length):
-    return f"int8_t"
-
-
-def convert_uint8_cpp(string, length):
-    return f"uint8_t"
-
-
-def convert_int16_cpp(string, length):
-    return f"int16_t"
-
-
-def convert_uint16_cpp(string, length):
-    return f"uint16_t"
-
-
-def convert_int32_cpp(string, length):
-    return f"int32_t"
-
-
-def convert_uint32_cpp(string, length):
-    return f"uint32_t"
-
-
-def convert_int64_cpp(string, length):
-    return f"long"
-
-
-def convert_uint64_cpp(string, length):
-    return f"unsigned long"
-
-
-def convert_string_cpp(string, length):
-    return f"char *"
-
-
-def convert_float32_cpp(string, length):
-    return f"float"
-
-
-def convert_float64_cpp(string, length):
-    return f"double"
-
-
-def convert_bool_cpp(string, length):
-    return f"bool"
-
-
-def convert_char_cpp(string, length):
-    return f"char"
-
-
-def convert_byte_cpp(string, length):
-    return f"uint8_t"
-
-
 def convert_custom_cpp(custom_type, name, length):
     return custom_type
 
 
-def create_struct_cpp(msg, known_conversions, all_custom_types):
-    # name = msg.type.replace('/', '_')
-    # fields = []
-    # for field in msg.fields:
-    #     fields.append(Field(field[0], field[1], field[2], known_conversions))
+def create_struct_cpp(msg, all_custom_types):
+    return StructCPP(msg.type, msg.fields, msg.type, msg.ros_type, all_custom_types)
 
+def create_struct_cs(msg, all_custom_types):
     return StructCPP(msg.type, msg.fields, msg.type, msg.ros_type, all_custom_types)
 
 
 known_conversions_cpp = {
-    "int8": convert_int8_cpp,
-    "uint8": convert_uint8_cpp,
-    "int16": convert_int16_cpp,
-    "uint16": convert_uint16_cpp,
-    "int32": convert_int32_cpp,
-    "uint32": convert_uint32_cpp,
-    "int64": convert_int64_cpp,
-    "uint64": convert_uint64_cpp,
-    "float32": convert_float32_cpp,
-    "float64": convert_float64_cpp,
-    "string": convert_string_cpp,
-    "bool": convert_bool_cpp,
-    "char": convert_char_cpp,
-    "byte": convert_byte_cpp,
+    "int8": f"int8_t",
+    "uint8": f"uint8_t",
+    "int16": f"int16_t",
+    "uint16": f"uint16_t",
+    "int32": f"int32_t",
+    "uint32": f"uint32_t",
+    "int64": f"long",
+    "uint64": f"unsigned long",
+    "float32": f"float",
+    "float64": f"double",
+    "string": f"char *",
+    "bool": f"bool",
+    "char": f"char",
+    "byte": f"uint8_t",
+}
+
+known_conversions_cs = {
+    "int8": f"sbyte",
+    "uint8": f"byte",
+    "int16": f"short",
+    "uint16": f"ushort",
+    "int32": f"int",
+    "uint32": f"uint",
+    "int64": f"long",
+    "uint64": f"ulong",
+    "float32": f"float",
+    "float64": f"double",
+    "string": f"IntPtr",
+    "bool": f"bool",
+    "char": f"char",
+    "byte": f"byte",
 }
 
 
@@ -247,7 +200,7 @@ def convert_messages(create_struct, known_conversions):
                 continue
 
             converted_msgs.add(msg.type)
-            out = create_struct(msg, known_conversions, all_custom_types)
+            out = create_struct(msg, all_custom_types)
             structs.append(out)
 
     def camel_to_snake(camel_str):
@@ -280,12 +233,11 @@ if __name__ == "__main__":
 
     # Add arguments
     parser.add_argument("language", type=str, help="location to save output file")
-    parser.add_argument("header_dir", type=str, help="generate code language: c++ or c#")
-    parser.add_argument("src_dir", type=str, help="generate code language: c++ or c#")
+    parser.add_argument("--header_dir", type=str, help="generate code language: c++ or c#")
+    parser.add_argument("--src_dir", type=str, help="generate code language: c++ or c#")
+    parser.add_argument("--csharp_dir", type=str, help="generate code language: c++ or c#")
 
     args = parser.parse_args()
-    if args.language not in {'cpp', 'c#'}:
-        raise ValueError("Argument 2 must be equal to 'cpp' or 'c#'")
     if args.language == 'cpp':
         JinjaTemplate.load('cpp')
         contents, all_ros_message_types = convert_messages(create_struct_cpp, known_conversions_cpp)
@@ -306,13 +258,6 @@ if __name__ == "__main__":
             with open(os.path.join(args.src_dir, msg.struct_type + '.cpp'), 'w') as f:
                 f.write(out)
 
-        # j2_template = Template(JinjaTemplate.templates["sub_pub_interface_header"])
-        # includes = [f'generated/{v.struct_type}' for v in all_ros_message_types]
-        # data = {'includes': includes}
-        # out = j2_template.render(data, trim_blocks=True)
-        # with open(os.path.join(args.header_dir, 'sub_pub_interface.h'), 'w') as f:
-        #     f.write(out)
-
         j2_template = Template(JinjaTemplate.templates["sub_pub_interface_impl"])
         includes = [f'generated/{v.struct_type}' for v in all_ros_message_types]
         data = {'all_ros_message_types': all_ros_message_types, 'includes': includes}
@@ -320,7 +265,16 @@ if __name__ == "__main__":
         with open(os.path.join(args.src_dir, 'sub_pub_interface.cpp'), 'w') as f:
             f.write(out)
 
+    elif args.language == 'c#':
+        JinjaTemplate.load('c#')
+        contents, all_ros_message_types = convert_messages(create_struct_cs, known_conversions_cs)
+        if not os.path.exists(os.path.join(args.csharp_dir)):
+            os.makedirs(os.path.join(args.csharp_dir))
+        with open(os.path.join(args.csharp_dir, 'message_structs.cs'), 'w') as f:
+            f.write(contents)
+
     else:
-        raise NotImplementedError()
-        # contents = convert_messages(create_struct_cpp, known_conversions_cpp)
+        raise ValueError("Argument 2 must be equal to 'cpp' or 'c#'")
+
+    # contents = convert_messages(create_struct_cpp, known_conversions_cpp)
     # print(contents)

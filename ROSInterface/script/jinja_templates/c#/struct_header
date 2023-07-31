@@ -1,0 +1,6 @@
+using System;
+using System.Runtime.InteropServices;
+
+{% for struct in structs %}
+{{struct}}
+{% endfor %}
