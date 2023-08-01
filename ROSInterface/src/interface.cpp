@@ -50,12 +50,14 @@ public:
     }
 
     void Receive(const std::string &type, const std::string &topic, void *output) {
+        auto tmp = (sensor_msgs_JointState *) output;
         auto key = type + topic;
         if (subscriber_map.find(key) == subscriber_map.end()) {
             const std::lock_guard<std::mutex> lock(node_mtx);
             subscriber_map[key] = createROSSubscriber(type, topic, node_);
         }
         subscriber_map[key]->receive(output);
+
     }
 
     std::shared_ptr<rclcpp::Node> node_;

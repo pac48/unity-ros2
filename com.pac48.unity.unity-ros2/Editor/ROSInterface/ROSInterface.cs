@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using System.Text;
 using Random = UnityEngine.Random;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
+using Unity.Collections.LowLevel.Unsafe;
 
 [StructLayout(LayoutKind.Sequential)]
 [System.Serializable]
@@ -121,6 +123,8 @@ public class ROSInterface : MonoBehaviour
 
     // native
     private IntPtr handle;
+    // private IntPtr ptr; // pointer to struct 
+    private int ptr_size = 0; // pointer to struct 
     private NativeTransform native_transform;
     private NativeInt32 native_eating;
     private NativeInt32 native_taking_medicine;
@@ -143,40 +147,42 @@ public class ROSInterface : MonoBehaviour
 
     void Start()
     {
-        color_cameras = FindObjectsOfType<ImagePublisher>();
-        depth_cameras = FindObjectsOfType<DepthImagePublisher>();
-        laser_scanners = FindObjectsOfType<LaserScanPublisher>();
-
-        prev_forward = new Vector3();
-        prev_position = new Vector3();
-        // prev_position = odom_transform.position;
-        // prev_forward = odom_transform.forward;
-
         handle = Init();
-        native_transform = new NativeTransform();
-
-        native_eating.topic = Marshal.StringToHGlobalAnsi("person_eating");
-        native_taking_medicine.topic = Marshal.StringToHGlobalAnsi("person_taking_medicine");
-
-
-        native_odom = new NativeOdom();
-        native_odom.pose.frame_id = Marshal.StringToHGlobalAnsi("odom");
-        native_odom.pose.child_frame_id = Marshal.StringToHGlobalAnsi(odom_transform.name);
-        native_odom.pose_covariance = new double[36];
-        native_odom.pose_covariance[0] = 0.1;
-        native_odom.pose_covariance[7] = 0.1;
-        native_odom.pose_covariance[14] = 1000000000000.0;
-        native_odom.pose_covariance[21] = 1000000000000.0;
-        native_odom.pose_covariance[28] = 1000000000000.0;
-        native_odom.pose_covariance[35] = 1000000000000.0;
-        native_odom.twist_covariance = new double[36];
-        native_odom.twist_covariance[0] = 1000000000000.0;
-        native_odom.twist_covariance[7] = 1000000000000.0;
-        native_odom.twist_covariance[14] = 1000000000000.0;
-        native_odom.twist_covariance[21] = 1000000000000.0;
-        native_odom.twist_covariance[28] = 1000000000000.0;
-        native_odom.twist_covariance[35] = 1000000000000.0;
     }
+    // color_cameras = FindObjectsOfType<ImagePublisher>();
+    // depth_cameras = FindObjectsOfType<DepthImagePublisher>();
+    // laser_scanners = FindObjectsOfType<LaserScanPublisher>();
+    //
+    // prev_forward = new Vector3();
+    // prev_position = new Vector3();
+    // // prev_position = odom_transform.position;
+    // // prev_forward = odom_transform.forward;
+    //
+    // handle = Init();
+    // native_transform = new NativeTransform();
+    //
+    // native_eating.topic = Marshal.StringToHGlobalAnsi("person_eating");
+    // native_taking_medicine.topic = Marshal.StringToHGlobalAnsi("person_taking_medicine");
+    //
+    //
+    // native_odom = new NativeOdom();
+    // native_odom.pose.frame_id = Marshal.StringToHGlobalAnsi("odom");
+    // native_odom.pose.child_frame_id = Marshal.StringToHGlobalAnsi(odom_transform.name);
+    // native_odom.pose_covariance = new double[36];
+    // native_odom.pose_covariance[0] = 0.1;
+    // native_odom.pose_covariance[7] = 0.1;
+    // native_odom.pose_covariance[14] = 1000000000000.0;
+    // native_odom.pose_covariance[21] = 1000000000000.0;
+    // native_odom.pose_covariance[28] = 1000000000000.0;
+    // native_odom.pose_covariance[35] = 1000000000000.0;
+    // native_odom.twist_covariance = new double[36];
+    // native_odom.twist_covariance[0] = 1000000000000.0;
+    // native_odom.twist_covariance[7] = 1000000000000.0;
+    // native_odom.twist_covariance[14] = 1000000000000.0;
+    // native_odom.twist_covariance[21] = 1000000000000.0;
+    // native_odom.twist_covariance[28] = 1000000000000.0;
+    // native_odom.twist_covariance[35] = 1000000000000.0;
+    // }
 
     // void FixedUpdate()
     // {
@@ -229,112 +235,141 @@ public class ROSInterface : MonoBehaviour
         native.rotation = rotation;
     }
 
+    public IntPtr[] getArrayPtr<T>(ref CArray array, int len)
+    {
+        int elementSize = Marshal.SizeOf(typeof(T));
+        if (array.ptr != IntPtr.Zero)
+        {
+            for (int i = 0; i < array.length; i++)
+            {
+                if (typeof(T) == typeof(IROSMsg))
+                {
+                    var msg = (IROSMsg)Marshal.PtrToStructure(array.ptr + i * elementSize, typeof(T));
+                    msg.Delete();
+                }
+                else if (typeof(T) == typeof(IntPtr))
+                {
+                    Marshal.FreeHGlobal(Marshal.ReadIntPtr(array.ptr, i * elementSize));
+                }
+            }
+
+            Marshal.FreeHGlobal(array.ptr);
+        }
+
+        array.length = len;
+        array.ptr = Marshal.AllocHGlobal(elementSize * len);
+        IntPtr[] ret = new IntPtr[len];
+        for (int i = 0; i < len; i++)
+        {
+            Marshal.WriteIntPtr(array.ptr, i * elementSize, array.ptr + i * elementSize);
+            ret[i] = Marshal.ReadIntPtr(array.ptr, i * elementSize);
+        }
+
+        return ret;
+    }
+
+    void setStructArray<T>(ref CArray array, T[] msgs) where T : IROSMsg
+    {
+        IntPtr[] arr = getArrayPtr<T>(ref array, msgs.Length);
+        for (int i = 0; i < msgs.Length; i++)
+        {
+            Marshal.StructureToPtr(msgs[i], arr[i], false);
+        }
+    }
+
+    void setStringArray(ref CArray array, string[] msgs)
+    {
+        IntPtr[] arr = getArrayPtr<IntPtr>(ref array, msgs.Length);
+        for (int i = 0; i < msgs.Length; i++)
+        {
+            Marshal.WriteIntPtr(arr[i], 0, Marshal.StringToHGlobalAnsi(msgs[i] + "\0"));
+        }
+    }
+
+    void setDoubleArray(ref CArray array, double[] msgs)
+    {
+        IntPtr[] arr = getArrayPtr<double>(ref array, msgs.Length);
+        for (int i = 0; i < msgs.Length; i++)
+        {
+            Marshal.WriteInt64(arr[i], 0, BitConverter.DoubleToInt64Bits(msgs[i]));
+        }
+    }
+
+    void setString(ref IntPtr ptr, string str)
+    {
+        if (ptr != IntPtr.Zero)
+        {
+            Marshal.FreeHGlobal(ptr);
+        }
+
+        ptr = Marshal.StringToHGlobalAnsi(str + "\0");
+    }
+
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Space)) {
-        foreach (var trans in transforms)
-        {
-            native_transform.frame_id = Marshal.StringToHGlobalAnsi(trans.name);
-            native_transform.child_frame_id = Marshal.StringToHGlobalAnsi("odom");
-            SetTransform(trans, ref native_transform);
-            PublishTF(handle, ref native_transform);
+        geometry_msgs_PoseArray val4 = new geometry_msgs_PoseArray();
+        geometry_msgs_Pose[] poses = new geometry_msgs_Pose[2];
+        poses[0].position.x = 3.1;
+        poses[0].position.y = 2.2;
+        poses[0].position.z = 1.3;
+        poses[1].position.x = 1.1;
+        poses[1].position.y = 2.2;
+        poses[1].position.z = 3.3;
+        setStructArray(ref val4.poses, poses);
+        PublishROS(ref val4, "pose_aray");
+        setStructArray(ref val4.poses, poses);
 
-            Marshal.FreeHGlobal(native_transform.frame_id);
-            Marshal.FreeHGlobal(native_transform.child_frame_id);
-        }
-
-        native_eating.data = 0;
-        if (animator && animator.GetCurrentAnimatorStateInfo(0).IsName("eating"))
-        {
-            native_eating.data = 1;
-        }
-
-        PublishInt32(handle, ref native_eating);
-
-        native_taking_medicine.data = 0;
-        if (animator && animator.GetCurrentAnimatorStateInfo(0).IsName("pill"))
-        {
-            native_taking_medicine.data = 1;
-        }
-
-        PublishInt32(handle, ref native_taking_medicine);
+        std_msgs_Float32MultiArray val2 = new std_msgs_Float32MultiArray();
+        double[] data_vals = { 1, 2, 3 };
+        setDoubleArray(ref val2.data, data_vals);
+        std_msgs_MultiArrayDimension[] mulit = new std_msgs_MultiArrayDimension[2];
+        setString(ref mulit[0].label, "sad");
+        mulit[0].size = 3;
+        setString(ref mulit[1].label, "no");
+        setStructArray(ref val2.layout.dim, mulit);
+        PublishROS(ref val2, "array");
 
 
-        // SetTransform(odom_transform, ref native_odom.pose);
-        // PublishOdom(handle, ref native_odom);
+        sensor_msgs_JointState val3 = new sensor_msgs_JointState();
+        string[] name_arr = { "joint_1", "joint_2", "joint_3" };
+        setStringArray(ref val3.name, name_arr);
+        double[] position_arr = {1.1,2.2,3.3};
+        setDoubleArray(ref val3.position, position_arr);
+        PublishROS(ref val3, "joint_state");
+        
+        sensor_msgs_JointState val33 = new sensor_msgs_JointState();
+        ReceiveROS(ref val33, "joint_state");
 
-        // if (Input.GetKeyDown(KeyCode.Space))
-        ReceiveCmdVel(handle, ref native_twist);
+        std_msgs_String val5 = new std_msgs_String();
+        ReceiveROS(ref val5, "chatter");
+        string str = Marshal.PtrToStringAnsi(val5.data);
+        Debug.Log(str);
+    }
 
-        foreach (var cam in color_cameras)
-        {
-            if (cam.should_publish)
-            {
-                native_image.height = cam.height;
-                native_image.width = cam.width;
-                native_image.step = cam.step;
-                native_image.topic = Marshal.StringToHGlobalAnsi(cam.topicName);
-                native_image.frame_id = Marshal.StringToHGlobalAnsi(cam.FrameId);
-                native_image.data = Marshal.AllocHGlobal(cam.data.Length);
-                native_image.encoding = Marshal.StringToHGlobalAnsi("rgba8");
-                Marshal.Copy(cam.data, 0, native_image.data, cam.data.Length);
-                PublishImage(handle, ref native_image);
-                Marshal.FreeHGlobal(native_image.topic);
-                Marshal.FreeHGlobal(native_image.frame_id);
-                Marshal.FreeHGlobal(native_image.data);
-                Marshal.FreeHGlobal(native_image.encoding);
-                cam.should_publish = false;
-            }
-        }
+    public void PublishROS<T>(ref T msg, string topic_str) where T : unmanaged, IROSMsg
+    {
+        ASCIIEncoding ascii = new ASCIIEncoding();
+        byte[] type = ascii.GetBytes(msg.GetMsgType() + "\0");
+        byte[] topic = ascii.GetBytes(topic_str + "\0");
+        
+        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(msg));
+        Marshal.StructureToPtr(msg, ptr, false);
+        PublishROSInternal(handle, type, topic, ptr);
+        Marshal.FreeHGlobal(ptr);
+    }
 
-        foreach (var cam in depth_cameras)
-        {
-            if (cam.should_publish)
-            {
-                native_image.height = cam.height;
-                native_image.width = cam.width;
-                native_image.step = cam.step;
-                native_image.topic = Marshal.StringToHGlobalAnsi(cam.topicName);
-                native_image.frame_id = Marshal.StringToHGlobalAnsi(cam.FrameId);
-                native_image.data = Marshal.AllocHGlobal(cam.data.Length);
-                Marshal.Copy(cam.data, 0, native_image.data, cam.data.Length);
-                native_image.encoding = Marshal.StringToHGlobalAnsi("32FC1");
-                PublishImage(handle, ref native_image);
-                Marshal.FreeHGlobal(native_image.topic);
-                Marshal.FreeHGlobal(native_image.frame_id);
-                Marshal.FreeHGlobal(native_image.data);
-                Marshal.FreeHGlobal(native_image.encoding);
-                cam.should_publish = false;
-            }
-        }
-
-        foreach (var laser in laser_scanners)
-        {
-            if (laser.should_publish)
-            {
-                native_scan.topic = Marshal.StringToHGlobalAnsi(laser._topicName);
-                native_scan.frame_id = Marshal.StringToHGlobalAnsi(laser._frameId);
-                native_scan.angle_min = laser.angle_min;
-                native_scan.angle_max = laser.angle_max;
-                native_scan.angle_increment = laser.angle_increment;
-                native_scan.time_increment = laser.time_increment;
-                native_scan.scan_time = laser.scan_time;
-                native_scan.range_min = laser.range_min;
-                native_scan.range_max = laser.range_max;
-                int sizeInBytes = Marshal.SizeOf(laser.ranges[0]) * laser.ranges.Length;
-                native_scan.ranges = Marshal.AllocHGlobal(sizeInBytes);
-                Marshal.Copy(laser.ranges, 0, native_scan.ranges, laser.ranges.Length);
-                sizeInBytes = Marshal.SizeOf(laser.intensities[0]) * laser.intensities.Length;
-                native_scan.intensities = Marshal.AllocHGlobal(sizeInBytes);
-                Marshal.Copy(laser.intensities, 0, native_scan.intensities, laser.intensities.Length);
-                native_scan.count = laser.intensities.Length;
-                PublishScan(handle, ref native_scan);
-                Marshal.FreeHGlobal(native_scan.ranges);
-                Marshal.FreeHGlobal(native_scan.intensities);
-                Marshal.FreeHGlobal(native_scan.topic);
-                laser.should_publish = false;
-            }
-        }
+    public void ReceiveROS<T>(ref T msg, string topic_str) where T : unmanaged, IROSMsg
+    {
+        // Try to bypass marshalling
+        ASCIIEncoding ascii = new ASCIIEncoding();
+        byte[] type = ascii.GetBytes(msg.GetMsgType() + "\0");
+        byte[] topic = ascii.GetBytes(topic_str + "\0");
+        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(msg));
+        var tmp = new T();
+        Marshal.StructureToPtr(tmp, ptr, false);
+        ReceiveROSInternal(handle, type, topic, ptr);
+        msg = (T)Marshal.PtrToStructure(ptr, typeof(T));
+        Marshal.FreeHGlobal(ptr);
     }
 
     [DllImport("libROSInterface.so", EntryPoint = "Init", CallingConvention = CallingConvention.Cdecl)]
@@ -343,21 +378,9 @@ public class ROSInterface : MonoBehaviour
     [DllImport("libROSInterface.so", EntryPoint = "Destroy", CallingConvention = CallingConvention.Cdecl)]
     private static extern void Destroy(IntPtr handle);
 
-    [DllImport("libROSInterface.so", EntryPoint = "PublishTF", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void PublishTF(IntPtr handle, ref NativeTransform input);
+    [DllImport("libROSInterface.so", EntryPoint = "Publish", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void PublishROSInternal(IntPtr handle, byte[] type, byte[] topic, IntPtr input);
 
-    [DllImport("libROSInterface.so", EntryPoint = "PublishInt32", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void PublishInt32(IntPtr handle, ref NativeInt32 input);
-
-    [DllImport("libROSInterface.so", EntryPoint = "PublishOdom", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void PublishOdom(IntPtr handle, ref NativeOdom input);
-
-    [DllImport("libROSInterface.so", EntryPoint = "PublishImage", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void PublishImage(IntPtr handle, ref NativeImage input);
-
-    [DllImport("libROSInterface.so", EntryPoint = "PublishScan", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void PublishScan(IntPtr handle, ref NativeScan input);
-
-    [DllImport("libROSInterface.so", EntryPoint = "ReceiveCmdVel", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void ReceiveCmdVel(IntPtr handle, ref NativeTwist output);
+    [DllImport("libROSInterface.so", EntryPoint = "Receive", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void ReceiveROSInternal(IntPtr handle, byte[] type, byte[] topic, IntPtr output);
 }

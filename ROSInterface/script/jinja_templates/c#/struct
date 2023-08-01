@@ -1,34 +1,12 @@
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct {{name}} : IROSMsg {
 {% for field in fields -%}
-{% if field.length>1 -%}[MarshalAs(UnmanagedType.ByValArray, SizeConst = {{field.length}})]
-{% elif field.msg_type=='string' and field.length==1 %}
-[MarshalAs(UnmanagedType.LPStr)]
-{% elif field.length==-1 %}
-[MarshalAs({% if field.msg_type in all_custom_types -%}UnmanagedType.LPArray, {% else %}UnmanagedType.LPArray, {% endif -%}{% if field.msg_type in all_custom_types -%} ArraySubType = UnmanagedType.Struct, {% elif field.msg_type=='string'%} ArraySubType = UnmanagedType.LPStr, {% endif -%}
-SizeParamIndex={{field.lp_index}})]
-{% endif -%}
-public {% if field.length==1 %}{{field.declaration}}{% else %}{{field.declaration}}[]{% endif %} {{field.name}}; {% if field.default_value != '' -%}// = {{field.default_value}}{% endif %}
+{% if field.length>1 -%}[MarshalAs(UnmanagedType.ByValArray, SizeConst = {{field.length}})]{% endif -%}
+public {% if field.length==1 %}{{field.declaration}}{% elif field.length==-1 %}CArray {% else %}{{field.declaration}}[]{% endif %} {{field.name}}; {% if field.default_value != '' -%}// = {{field.default_value}}{% endif %} // {{field.declaration}}
 {% endfor -%}
-{% for field in fields -%}
-{% if field.length==-1 -%}private long {{field.name}}_length;{% endif %}
-{% endfor %}
+
 public string GetMsgType(){
   return "{{ros_msg_type}}";
-}
-public void UpdateLengthFields(){
-  {% for field in fields -%}
-  {% if field.length==-1 -%}{{field.name}}_length = {{field.name}} == null ? 0 : {{field.name}}.Length;
-  {% if field.msg_type in all_custom_types -%}
-  foreach (var field in {{field.name}})
-  {
-      field.UpdateLengthFields();
-  }
-  {%- endif -%}
-  {%- else -%}
-  {% if field.msg_type in all_custom_types -%}{{field.name}}.UpdateLengthFields();{% endif %}
-  {%- endif -%}
-  {% endfor %}
 }
 public static {{name}} Create(){
   var inst = new {{name}}();
@@ -44,4 +22,9 @@ public static {{name}} Create(){
   {%- endfor %}
   return inst;
 }
+
+public void Delete(){
+
+}
+
 }

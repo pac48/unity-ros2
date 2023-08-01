@@ -4,7 +4,14 @@ using System.Runtime.InteropServices;
 public interface IROSMsg
 {
     public string GetMsgType();
-    public void UpdateLengthFields();
+    public void Delete();
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct CArray
+{
+  public IntPtr ptr;
+  public long length;
 }
 
 {% for struct in structs %}

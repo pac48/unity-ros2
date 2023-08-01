@@ -1,19 +1,25 @@
 struct {{name}} {
 {% for field in fields -%}
 {{field.declaration}} {% if field.length==-1 -%} *{% endif -%} {{field.name}}{% if field.length>1 -%}[{{field.length}}]{% endif -%} {% if field.default_value != '' -%} = {{field.default_value}}{% endif %};
+{% if field.length==-1 -%}size_t {{field.name}}_length;{% endif -%}
 {% endfor -%}
-{% for field in fields -%}
-{% if field.length==-1 -%}size_t {{field.name}}_length;{% endif %}
-{% endfor %}
+
 {{name}}() = default;
 {{name}}(const {{name}}&) = delete;
 {{name}}& operator=(const {{ros_msg_type}} & msg) {
 {% for field in fields -%}
 {% if 'string' == field.msg_type and field.length==1 -%}
+if ({{field.name}} != nullptr) free({{field.name}});
 {{field.name}} = (char *) calloc(1, strlen(msg.{{field.name}}.data())+1);
 std::memcpy({{field.name}}, msg.{{field.name}}.data(), strlen(msg.{{field.name}}.data()));
 {% elif 'string' == field.msg_type -%}
-{{field.name}} = (char**) malloc(msg.{{field.name}}.size()*sizeof(char*));
+if ({{field.name}} != nullptr) {
+for (auto i = 0ul; i < {{field.name}}_length; i++) {
+  free({{field.name}}[i]);
+}
+free({{field.name}});
+}
+{{field.name}} = (char**) calloc(1, msg.{{field.name}}.size()*sizeof(char*));
 {{field.name}}_length = msg.{{field.name}}.size();
 for (auto i = 0ul; i < {{field.name}}_length; i++) {
   {{field.name}}[i] = (char *) calloc(1, strlen(msg.{{field.name}}[i].data())+1);
@@ -21,6 +27,7 @@ for (auto i = 0ul; i < {{field.name}}_length; i++) {
 }
 {% elif field.length != 1 -%}
 {% if field.length == -1 -%}
+if ({{field.name}} != nullptr) delete ({{field.name}});
 {{field.name}} = new {{field.declaration}}[msg.{{field.name}}.size()];
 {% endif -%}
 {% if field.msg_type in all_custom_types -%}
@@ -42,7 +49,7 @@ operator {{ros_msg_type}}(){
 {{ros_msg_type}} msg;
 
 {% for field in fields -%}
-{% if field.default_value != '' -%}
+{% if field.default_value != '' and field.default_value != 'nullptr' -%}
 {% elif field.length==-1 -%}
 msg.{{field.name}}.resize({{field.name}}_length);
 for (auto i = 0ul; i < {{field.name}}_length; i++) {
@@ -52,7 +59,9 @@ for (auto i = 0ul; i < {{field.name}}_length; i++) {
 for (auto i = 0ul; i < {{field.length}}; i++) {
   msg.{{field.name}}[i] = {{field.name}}[i];
 }
-{% elif field.length==1 -%}
+{% elif field.length==1 and 'string' == field.msg_type -%}
+if ({{field.name}}) msg.{{field.name}} = {{field.name}};
+{% else -%}
 msg.{{field.name}} = {{field.name}};
 {% endif -%}
 {% endfor -%}
