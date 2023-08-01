@@ -1,7 +1,9 @@
 struct {{name}} {
 {% for field in fields -%}
 {{field.declaration}} {% if field.length==-1 -%} *{% endif -%} {{field.name}}{% if field.length>1 -%}[{{field.length}}]{% endif -%} {% if field.default_value != '' -%} = {{field.default_value}}{% endif %};
-{% if field.length==-1 -%}size_t {{field.name}}_length;{% endif -%}
+{% endfor -%}
+{% for field in fields -%}
+{% if field.length==-1 -%}size_t {{field.name}}_length;{% endif %}
 {% endfor %}
 {{name}}() = default;
 {{name}}(const {{name}}&) = delete;
@@ -75,4 +77,4 @@ delete {{field.name}};
 {% endif -%}
 {% endfor -%}
 }
-};
+} __attribute__((packed));

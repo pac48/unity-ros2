@@ -20,14 +20,24 @@ public:
         node_ = std::make_shared<rclcpp::Node>("unity_ros_interface_node");
         executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
         executor_->add_node(node_);
-        auto spin_thread_ = std::make_shared<std::thread>([this]() {
-            const std::lock_guard<std::mutex> lock(node_mtx);
-            executor_->spin_some();
+        spin_thread_ = std::make_shared<std::thread>([this]() {
+            while (true) {
+                executor_->spin_some();
+                const std::lock_guard<std::mutex> lock(node_mtx);
+                if (shutdown) {
+                    break;
+                }
+            }
         });
     }
 
     ~ROSInterface() {
         rclcpp::shutdown();
+        {
+            const std::lock_guard<std::mutex> lock(node_mtx);
+            shutdown = true;
+        }
+        spin_thread_->join();
     }
 
     void Publish(const std::string &type, const std::string &topic, void *input) {
@@ -52,7 +62,9 @@ public:
     std::shared_ptr<rclcpp::executors::MultiThreadedExecutor> executor_;
     std::unordered_map<std::string, std::shared_ptr<BasePublisher>> publisher_map;
     std::unordered_map<std::string, std::shared_ptr<BaseSubscriber>> subscriber_map;
+    std::shared_ptr<std::thread> spin_thread_;
     std::mutex node_mtx;
+    bool shutdown = false;
 
 };
 

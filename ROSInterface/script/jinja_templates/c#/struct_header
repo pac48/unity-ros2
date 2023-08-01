@@ -1,6 +1,12 @@
 using System;
 using System.Runtime.InteropServices;
 
+public interface IROSMsg
+{
+    public string GetMsgType();
+    public void UpdateLengthFields();
+}
+
 {% for struct in structs %}
 {{struct}}
 {% endfor %}

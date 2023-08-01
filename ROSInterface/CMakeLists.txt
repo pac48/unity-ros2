@@ -187,9 +187,10 @@ target_link_libraries(ROSInterfaceGenerated PUBLIC ${nav_msgs_LIBRARIES})
 target_link_libraries(ROSInterfaceGenerated PUBLIC ${tf2_ros_LIBRARIES})
 target_link_libraries(ROSInterfaceGenerated PUBLIC ${tracetools_LIBRARIES})
 
-target_link_libraries(ROSInterface PUBLIC ROSInterfaceGenerated)
+#target_compile_options(ROSInterfaceGenerated PUBLIC -g -O3)
 
-target_compile_options(ROSInterface PUBLIC -g)
+target_link_libraries(ROSInterface PUBLIC ROSInterfaceGenerated)
+target_compile_options(ROSInterface PUBLIC -g -O0)
 
 # install targets
 set_target_properties(ROSInterfaceGenerated PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")

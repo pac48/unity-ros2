@@ -14,5 +14,8 @@ createROSSubscriber(const std::string &type, const std::string &topic, rclcpp::N
 
 std::shared_ptr<BasePublisher>
 createROSPublisher(const std::string &type, const std::string &topic, rclcpp::Node::SharedPtr node){
-    return nullptr;
+    {% for msg in all_ros_message_types -%}
+    if (type == "{{msg.ros_type}}") return std::make_shared<Publisher{{msg.struct_type}}>(topic, node);
+    {% endfor %}
+    throw std::runtime_error("Unsupported ROS message type: " + type);
 }

@@ -16,3 +16,14 @@ void Subscriber{{msg.struct_type}}::callback(const {{msg.ros_type}}::SharedPtr n
     const std::lock_guard<std::mutex> lock(mtx);
     msg = *new_msg;
 }
+
+
+Publisher{{msg.struct_type}}::Publisher{{msg.struct_type}}(const std::string &topic, rclcpp::Node::SharedPtr node) {
+    publisher = node->create_publisher<{{msg.ros_type}}>(topic, 10);
+}
+
+void Publisher{{msg.struct_type}}::publish(void *input) {
+    auto msg_struct = ({{msg.struct_type}} *) input;
+    msg = *msg_struct;
+    publisher->publish(msg);
+}

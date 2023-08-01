@@ -13,3 +13,11 @@ public:
 private:
     void callback(const {{msg.ros_type}}::SharedPtr new_msg);
 };
+
+class Publisher{{msg.struct_type}} : public BasePublisher {
+    rclcpp::Publisher<{{msg.ros_type}}>::SharedPtr publisher;
+    {{msg.ros_type}} msg;
+public:
+    Publisher{{msg.struct_type}}(const std::string &topic, rclcpp::Node::SharedPtr node);
+    void publish(void *input) override;
+};

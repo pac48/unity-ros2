@@ -27,6 +27,7 @@ class Field:
         self.length = length
         self.default_value = default_value
         self.known_conversions = known_conversions
+        self.lp_index = -1
         if self.msg_type in self.known_conversions:
             self.declaration = self.known_conversions[self.msg_type]
         else:
@@ -37,6 +38,12 @@ class StructCPP:
     def __init__(self, name, fields, msg_type, ros_msg_type, all_custom_types):
         self.name = name
         self.fields = fields
+        counter = len(fields) - 1
+        for f in fields:
+            if f.length == -1:
+                counter += 1
+                f.lp_index = counter
+
         self.msg_type = msg_type
         self.ros_msg_type = ros_msg_type
         self.all_custom_types = all_custom_types
@@ -54,6 +61,7 @@ def convert_custom_cpp(custom_type, name, length):
 
 def create_struct_cpp(msg, all_custom_types):
     return StructCPP(msg.type, msg.fields, msg.type, msg.ros_type, all_custom_types)
+
 
 def create_struct_cs(msg, all_custom_types):
     return StructCPP(msg.type, msg.fields, msg.type, msg.ros_type, all_custom_types)
