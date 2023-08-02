@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class DepthImagePublisher : ROSPublisher
+public class DepthImagePublisher : MonoBehaviour
 {
     public string topicName = "unity_camera/depth/image_raw";
     // public string cameraInfoTopicName = "unity_camera/rgb/camera_info";
@@ -41,7 +41,7 @@ public class DepthImagePublisher : ROSPublisher
 
     void Start()
     {
-        ros_interface = FindObjectOfType<ROSInterface>();
+        // ros_interface = FindObjectOfType<ROSInterface>();
         texture2D = new Texture2D(width, height, TextureFormat.RFloat, false);
         data = new byte[width * height * 4];
         rect = new Rect(0, 0, width, height);
@@ -107,10 +107,10 @@ public class DepthImagePublisher : ROSPublisher
                 }
             }
 
-            ros_interface.native_image.height = height; 
-            ros_interface.native_image.width = width;
+            // ros_interface.native_image.height = height; 
+            // ros_interface.native_image.width = width;
 
-            Publish();
+            // Publish();
             timeElapsed = 0;
         }
     }

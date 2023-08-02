@@ -27,6 +27,7 @@ for (auto i = 0ul; i < {{field.name}}_length; i++) {
 }
 {% elif field.length != 1 -%}
 {% if field.length == -1 -%}
+{{field.name}}_length = msg.{{field.name}}.size();
 if ({{field.name}} != nullptr) delete ({{field.name}});
 {{field.name}} = new {{field.declaration}}[msg.{{field.name}}.size()];
 {% endif -%}
@@ -36,7 +37,7 @@ for (auto i = 0ul; i < {{field.name}}_length; i++) {
  {{field.name}}[i] = msg.{{field.name}}[i];
 }
 {% else -%}
-std::memcpy({{field.name}}, msg.{{field.name}}.data(), msg.{{field.name}}.size());
+std::memcpy({{field.name}}, msg.{{field.name}}.data(), msg.{{field.name}}.size()*sizeof({{field.declaration}}));
 {% endif -%}
 {% else -%}
 {{field.name}} = msg.{{field.name}};

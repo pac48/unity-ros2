@@ -47,6 +47,13 @@ public:
             publisher_map[key] = createROSPublisher(type, topic, node_);
         }
         publisher_map[key]->publish(input);
+//        if ("array" == topic){
+//            auto tmp = (std_msgs_Float32MultiArray *) input;
+//            std_msgs::msg::Float32MultiArray msg;
+//            msg = *tmp;
+//            std_msgs_Float32MultiArray output;
+//            output = msg;
+//        }
     }
 
     void Receive(const std::string &type, const std::string &topic, void *output) {
@@ -58,6 +65,12 @@ public:
         }
         subscriber_map[key]->receive(output);
 
+//        if ("joint_state" == topic){
+//            sensor_msgs::msg::JointState msg;
+//            msg = *tmp;
+//            sensor_msgs_JointState output;
+//            output = msg;
+//        }
     }
 
     std::shared_ptr<rclcpp::Node> node_;

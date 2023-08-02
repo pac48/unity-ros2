@@ -132,7 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 218962001}
-  - component: {fileID: 218962000}
+  - component: {fileID: 218962002}
+  - component: {fileID: 218962003}
   m_Layer: 0
   m_Name: ROSInterface
   m_TagString: Untagged
@@ -140,46 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &218962000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 218961999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7589e098084a1a3bd8db58601cfa5571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transforms: []
-  color_cameras: []
-  depth_cameras: []
-  laser_scanners: []
-  animator: {fileID: 0}
-  odom_transform: {fileID: 0}
-  native_twist:
-    linear:
-      x: 0
-      y: 0
-      z: 0
-    angular:
-      x: 0
-      y: 0
-      z: 0
-  native_image:
-    height: 0
-    width: 0
-    step: 0
-  native_scan:
-    angle_min: 0
-    angle_max: 0
-    angle_increment: 0
-    time_increment: 0
-    scan_time: 0
-    range_min: 0
-    range_max: 0
-    count: 0
 --- !u!4 &218962001
 Transform:
   m_ObjectHideFlags: 0
@@ -195,6 +156,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &218962002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218961999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdcd7259e7051cb729e8898a3a1256c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &218962003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218961999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7589e098084a1a3bd8db58601cfa5571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &234210608
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ using Unity.Robotics.ROSTCPConnector;
 // using RosMessageTypes.Sensor;
 
 [RequireComponent(typeof(RotateLidar))]
-public class LaserScanPublisher : ROSPublisher
+public class LaserScanPublisher : MonoBehaviour
 {
     [SerializeField] public string _topicName = "scan";
     [SerializeField] public string _frameId = "scan_link";
@@ -73,7 +73,7 @@ public class LaserScanPublisher : ROSPublisher
             
             ranges = this._lidar.distances.ToArray();
             intensities = this._lidar.intensities.ToArray();
-            Publish();
+            // Publish();
             
             // Update time
             this._timeElapsed = 0;

@@ -39,19 +39,19 @@ public class DiffDriveControllerJackal : MonoBehaviour
         body.GetJointForces(forces);
         startIndices = new List<int>();
         body.GetDofStartIndices(startIndices);
-        ros_interface = FindObjectOfType<ROSInterface>();
+        // ros_interface = FindObjectOfType<ROSInterface>();
     }
 
     void SetVelocity()
     {
-        var twist = ros_interface.native_twist;
-        angularVel.z = (float) twist.angular.x;
-        angularVel.x = (float)twist.angular.y;
-        angularVel.y = (float)twist.angular.z;
-
-        linearVel.z = (float)twist.linear.x;
-        linearVel.x = (float)twist.linear.y;
-        linearVel.y = (float)twist.linear.z;
+        // var twist = ros_interface.native_twist;
+        // angularVel.z = (float) twist.angular.x;
+        // angularVel.x = (float)twist.angular.y;
+        // angularVel.y = (float)twist.angular.z;
+        //
+        // linearVel.z = (float)twist.linear.x;
+        // linearVel.x = (float)twist.linear.y;
+        // linearVel.y = (float)twist.linear.z;
 
     }
     // Update is called once per frame
