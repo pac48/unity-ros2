@@ -1,52 +1,68 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class ROSInterface : MonoBehaviour
 {
     // native
-    private IntPtr handle;
+    private static IntPtr handle;
+    private static List<IntPtr> memory;
 
-    void OnDestroy()
+    // void OnDestroy()
+    // {
+    //     if (handle != null)
+    //     {
+    //         DestroyInternal(handle);
+    //     }
+    // }
+
+    [RuntimeInitializeOnLoadMethod]
+    static void Init()
     {
-        if (handle != null)
+        if (handle == IntPtr.Zero)
         {
-            DestroyInternal(handle);
+            handle = InitInternal(Allocate);
+            memory = new List<IntPtr>();
         }
     }
 
-    void Start()
+    private static IntPtr Allocate(int numBytes)
     {
-        if (handle != null)
+        if (handle == IntPtr.Zero) Init();
+        IntPtr ptr = Marshal.AllocHGlobal(numBytes);
+        memory.Add(ptr);
+        return ptr;
+    }
+
+    public static void FreeAll()
+    {
+        foreach (var ptr in memory)
         {
-            handle = InitInternal();
+            Marshal.FreeHGlobal(ptr);
         }
+
+        memory = new List<IntPtr>();
+    }
+
+    public delegate IntPtr AllocateDelegate(int numBytes);
+
+    private static IntPtr AllocateString(string str)
+    {
+        if (handle == IntPtr.Zero) Init();
+        IntPtr ptr = Marshal.StringToHGlobalAnsi(str);
+        memory.Add(ptr);
+        return ptr;
     }
 
     public static IntPtr[] AllocateArrayPtr<T>(ref CArray array, int len)
     {
         int elementSize = Marshal.SizeOf(typeof(T));
-        if (array.ptr != IntPtr.Zero)
-        {
-            for (int i = 0; i < array.length; i++)
-            {
-                if (typeof(T) == typeof(IROSMsg))
-                {
-                    var msg = (IROSMsg)Marshal.PtrToStructure(array.ptr + i * elementSize, typeof(T));
-                    msg.Delete();
-                }
-                else if (typeof(T) == typeof(IntPtr))
-                {
-                    Marshal.FreeHGlobal(Marshal.ReadIntPtr(array.ptr, i * elementSize));
-                }
-            }
-
-            Marshal.FreeHGlobal(array.ptr);
-        }
-
         array.length = len;
-        array.ptr = Marshal.AllocHGlobal(elementSize * len);
+        array.ptr = Allocate(elementSize * len);
         IntPtr[] ret = new IntPtr[len];
         for (int i = 0; i < len; i++)
         {
@@ -71,7 +87,7 @@ public class ROSInterface : MonoBehaviour
         IntPtr[] arr = AllocateArrayPtr<IntPtr>(ref array, msgs.Length);
         for (int i = 0; i < msgs.Length; i++)
         {
-            Marshal.WriteIntPtr(arr[i], 0, Marshal.StringToHGlobalAnsi(msgs[i] + "\0"));
+            Marshal.WriteIntPtr(arr[i], 0, AllocateString(msgs[i] + "\0"));
         }
     }
 
@@ -89,21 +105,19 @@ public class ROSInterface : MonoBehaviour
 
     public static void allocateString(ref IntPtr ptr, string str)
     {
-        if (ptr != IntPtr.Zero)
-        {
-            Marshal.FreeHGlobal(ptr);
-        }
-
-        ptr = Marshal.StringToHGlobalAnsi(str + "\0");
+        ptr = AllocateString(str + "\0");
     }
 
     public static string getString(IntPtr ptr)
     {
+        if (ptr == IntPtr.Zero) return "";
+        var tmp = Marshal.ReadIntPtr(ptr); // TODO remove this
         return Marshal.PtrToStringAnsi(ptr);
     }
 
     public static string[] getStringArray(CArray array)
     {
+        if (array.ptr == IntPtr.Zero) return new string[0];
         string[] ret = new string[array.length];
         int elementSize = Marshal.SizeOf(typeof(IntPtr));
         for (int i = 0; i < array.length; i++)
@@ -117,18 +131,21 @@ public class ROSInterface : MonoBehaviour
 
     public static double[] getDoubleArray(CArray array)
     {
+        if (array.ptr == IntPtr.Zero) return new double[0];
         double[] ret = new double[array.length];
         Marshal.Copy(array.ptr, ret, 0, (int)array.length);
         return ret;
     }
 
-    public static T getStruct<T>(IntPtr ptr) where T : IROSMsg
+    public static T getStruct<T>(IntPtr ptr) where T : IROSMsg, new()
     {
+        if (ptr == IntPtr.Zero) return new T();
         return (T)Marshal.PtrToStructure(ptr, typeof(T));
     }
 
-    public static T[] getStructArray<T>(CArray array) where T : IROSMsg
+    public static T[] getStructArray<T>(CArray array) where T : IROSMsg, new()
     {
+        if (array.ptr == IntPtr.Zero) return new T[0];
         T[] ret = new T[array.length];
         int elementSize = Marshal.SizeOf(typeof(T));
         for (int i = 0; i < array.length; i++)
@@ -141,32 +158,31 @@ public class ROSInterface : MonoBehaviour
 
     public void PublishROS<T>(ref T msg, string topic_str) where T : unmanaged, IROSMsg
     {
+        if (handle == IntPtr.Zero) Init();
         ASCIIEncoding ascii = new ASCIIEncoding();
         byte[] type = ascii.GetBytes(msg.GetMsgType() + "\0");
         byte[] topic = ascii.GetBytes(topic_str + "\0");
 
-        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(msg));
+        IntPtr ptr = Allocate(Marshal.SizeOf(msg));
         Marshal.StructureToPtr(msg, ptr, false);
         PublishROSInternal(handle, type, topic, ptr);
-        Marshal.FreeHGlobal(ptr);
     }
 
-    public void ReceiveROS<T>(ref T msg, string topic_str) where T : unmanaged, IROSMsg
+    public T ReceiveROS<T>(string topic_str) where T : unmanaged, IROSMsg
     {
-        // Try to bypass marshalling
-        ASCIIEncoding ascii = new ASCIIEncoding();
-        byte[] type = ascii.GetBytes(msg.GetMsgType() + "\0");
-        byte[] topic = ascii.GetBytes(topic_str + "\0");
-        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(msg));
         var tmp = new T();
-        Marshal.StructureToPtr(tmp, ptr, false);
-        ReceiveROSInternal(handle, type, topic, ptr);
-        msg = getStruct<T>(ptr);
-        Marshal.FreeHGlobal(ptr);
+        if (handle == IntPtr.Zero) Init();
+        ASCIIEncoding ascii = new ASCIIEncoding();
+        byte[] type = ascii.GetBytes(tmp.GetMsgType() + "\0");
+        byte[] topic = ascii.GetBytes(topic_str + "\0");
+        IntPtr ptr = new IntPtr();
+        ReceiveROSInternal(handle, type, topic, ref ptr);
+        var msg = getStruct<T>(ptr);
+        return msg;
     }
 
     [DllImport("libROSInterface.so", EntryPoint = "Init", CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr InitInternal();
+    private static extern IntPtr InitInternal(AllocateDelegate allocator);
 
     [DllImport("libROSInterface.so", EntryPoint = "Destroy", CallingConvention = CallingConvention.Cdecl)]
     private static extern void DestroyInternal(IntPtr handle);
@@ -175,5 +191,5 @@ public class ROSInterface : MonoBehaviour
     private static extern void PublishROSInternal(IntPtr handle, byte[] type, byte[] topic, IntPtr input);
 
     [DllImport("libROSInterface.so", EntryPoint = "Receive", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void ReceiveROSInternal(IntPtr handle, byte[] type, byte[] topic, IntPtr output);
+    private static extern void ReceiveROSInternal(IntPtr handle, byte[] type, byte[] topic, ref IntPtr output);
 }

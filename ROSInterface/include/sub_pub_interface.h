@@ -2,11 +2,12 @@
 
 #include "memory"
 #include <rclcpp/rclcpp.hpp>
+#include "interface.h"
 #include "generated/tmp.h"
 
 class BaseSubscriber {
 public:
-    virtual void receive(void *output) {};
+    virtual void receive(void **output, UnityAllocate allocator) {};
 };
 
 class BasePublisher {

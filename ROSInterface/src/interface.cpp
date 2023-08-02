@@ -14,12 +14,15 @@ using std::placeholders::_1;
 class ROSInterface {
 public:
 
-    ROSInterface() {
+    ROSInterface(UnityAllocate allocator) {
         auto name = "ros_node";
-        rclcpp::init(1, &name);
+        if (!rclcpp::contexts::get_global_default_context()->is_valid()) {
+            rclcpp::init(1, &name);
+        }
         node_ = std::make_shared<rclcpp::Node>("unity_ros_interface_node");
         executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
         executor_->add_node(node_);
+        allocator_ = allocator;
         spin_thread_ = std::make_shared<std::thread>([this]() {
             while (true) {
                 executor_->spin_some();
@@ -47,34 +50,22 @@ public:
             publisher_map[key] = createROSPublisher(type, topic, node_);
         }
         publisher_map[key]->publish(input);
-//        if ("array" == topic){
-//            auto tmp = (std_msgs_Float32MultiArray *) input;
-//            std_msgs::msg::Float32MultiArray msg;
-//            msg = *tmp;
-//            std_msgs_Float32MultiArray output;
-//            output = msg;
-//        }
     }
 
-    void Receive(const std::string &type, const std::string &topic, void *output) {
-        auto tmp = (sensor_msgs_JointState *) output;
+    void Receive(const std::string &type, const std::string &topic, void **output) {
         auto key = type + topic;
         if (subscriber_map.find(key) == subscriber_map.end()) {
             const std::lock_guard<std::mutex> lock(node_mtx);
             subscriber_map[key] = createROSSubscriber(type, topic, node_);
         }
-        subscriber_map[key]->receive(output);
+        subscriber_map[key]->receive(output, allocator_);
+        auto tmp = (std_msgs_String *) *output;
 
-//        if ("joint_state" == topic){
-//            sensor_msgs::msg::JointState msg;
-//            msg = *tmp;
-//            sensor_msgs_JointState output;
-//            output = msg;
-//        }
     }
 
     std::shared_ptr<rclcpp::Node> node_;
     std::shared_ptr<rclcpp::executors::MultiThreadedExecutor> executor_;
+    UnityAllocate allocator_;
     std::unordered_map<std::string, std::shared_ptr<BasePublisher>> publisher_map;
     std::unordered_map<std::string, std::shared_ptr<BaseSubscriber>> subscriber_map;
     std::shared_ptr<std::thread> spin_thread_;
@@ -83,13 +74,15 @@ public:
 
 };
 
-std::intptr_t Init() {
-    return (std::intptr_t) new ROSInterface();
+std::intptr_t Init(UnityAllocate allocator) {
+    return (std::intptr_t) new ROSInterface(allocator);
 }
 
 void Destroy(std::intptr_t handle) {
     auto ptr = (ROSInterface *) handle;
-    delete ptr;
+    if (handle != 0) {
+        delete ptr;
+    }
 }
 
 void Publish(std::intptr_t handle, char *type, char *topic, void *input) {
@@ -99,10 +92,9 @@ void Publish(std::intptr_t handle, char *type, char *topic, void *input) {
     }
 }
 
-void Receive(std::intptr_t handle, char *type, char *topic, void *output) {
+void Receive(std::intptr_t handle, char *type, char *topic, void **output) {
     if (handle != 0) {
         auto ptr = (ROSInterface *) handle;
         ptr->Receive(type, topic, output);
     }
 }
-

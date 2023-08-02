@@ -17,7 +17,7 @@ find_package(rosidl_default_runtime REQUIRED)
 
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
-add_library(ROSInterface SHARED src/interface.cpp src/generated/sensor_msgs_JointState.cpp)
+add_library(ROSInterface SHARED src/interface.cpp)
 
 add_library(ROSInterfaceGenerated SHARED
     src/generated/sub_pub_interface.cpp
@@ -65,7 +65,7 @@ add_library(ROSInterfaceGenerated SHARED
     src/generated/sensor_msgs_Illuminance.cpp
     src/generated/sensor_msgs_Image.cpp
     src/generated/sensor_msgs_Imu.cpp
-#    src/generated/sensor_msgs_JointState.cpp
+    src/generated/sensor_msgs_JointState.cpp
     src/generated/sensor_msgs_Joy.cpp
     src/generated/sensor_msgs_JoyFeedbackArray.cpp
     src/generated/sensor_msgs_JoyFeedback.cpp

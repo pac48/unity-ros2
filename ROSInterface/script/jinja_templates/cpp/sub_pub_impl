@@ -6,10 +6,11 @@ Subscriber{{msg.struct_type}}::Subscriber{{msg.struct_type}}(const std::string &
     subscriber = node->create_subscription<{{msg.ros_type}}>(topic, 10, std::bind(&Subscriber{{msg.struct_type}}::callback, this, _1));
 }
 
-void Subscriber{{msg.struct_type}}::receive(void *output) {
-    auto msg_struct = ({{msg.struct_type}} *) output;
+void Subscriber{{msg.struct_type}}::receive(void **output, UnityAllocate allocator) {
+    auto struct_ptr_ptr = ({{msg.struct_type}} **) output;
+    *struct_ptr_ptr = ({{msg.struct_type}} *) allocator(sizeof({{msg.struct_type}}));
     const std::lock_guard<std::mutex> lock(mtx);
-    *msg_struct = msg;
+    *(*struct_ptr_ptr) = {{msg.struct_type}}(msg, allocator);
 }
 
 void Subscriber{{msg.struct_type}}::callback(const {{msg.ros_type}}::SharedPtr new_msg) {

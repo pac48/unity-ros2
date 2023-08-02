@@ -26,8 +26,6 @@ class Field:
         self.name = name
         self.length = length
         self.default_value = default_value
-        if length == -1 or msg_type == 'string':
-            self.default_value = 'nullptr'
         self.known_conversions = known_conversions
         self.lp_index = -1
         if self.msg_type in self.known_conversions:

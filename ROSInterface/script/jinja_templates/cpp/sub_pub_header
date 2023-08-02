@@ -9,7 +9,7 @@ class Subscriber{{msg.struct_type}} : public BaseSubscriber {
     std::mutex mtx;
 public:
     Subscriber{{msg.struct_type}}(const std::string &topic, rclcpp::Node::SharedPtr node);
-    void receive(void *output) override;
+    void receive(void **output, UnityAllocate allocator) override;
 private:
     void callback(const {{msg.ros_type}}::SharedPtr new_msg);
 };

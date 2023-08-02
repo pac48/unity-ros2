@@ -14,9 +14,11 @@
 #endif
 
 
+typedef size_t(*UnityAllocate)(int num_bytes);
+
 extern "C" {
-MY_LIB_API std::intptr_t Init();
-MY_LIB_API void Receive(std::intptr_t handle, char *type, char *topic, void *output);
+MY_LIB_API std::intptr_t Init(UnityAllocate allocator);
+MY_LIB_API void Receive(std::intptr_t handle, char *type, char *topic, void **output);
 MY_LIB_API void Publish(std::intptr_t handle, char *type, char *topic, void *input);
 MY_LIB_API void Destroy(std::intptr_t handle);
 }

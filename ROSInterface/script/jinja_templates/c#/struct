@@ -9,44 +9,4 @@ public string GetMsgType(){
   return "{{ros_msg_type}}";
 }
 
-public void Delete(){
- {% for field in fields -%}
-  {% if field.msg_type=='string' and field.length==1 -%}
-  if ({{field.name}} != null){
-    Marshal.FreeHGlobal({{field.name}});
-  }
-  {% elif field.msg_type in all_custom_types and field.length==1-%}
-  {{field.name}}.Delete();
-  {% elif  field.msg_type in all_custom_types and field.length>1-%}
-  for (int i=0; i < {{field.length}}; i++)
-  {
-    {{field.length}}[i].Delete();
-  }
-  {% elif  field.msg_type=='string' and field.length>1-%}
-  for (int i=0; i < {{field.length}}; i++)
-  {
-      if ({{field.name}}[i] != null){
-        Marshal.FreeHGlobal({{field.name}}[i]);
-      }
-  }
-  {% elif  field.msg_type in all_custom_types and field.length==-1-%}
-  foreach (var inst in ROSInterface.getStructArray<{{field.declaration}}>({{field.name}}))
-  {
-      inst.Delete();
-  }
-  Marshal.FreeHGlobal({{field.name}}.ptr);
-  {% elif  field.msg_type=='string' and field.length==-1-%}
-  for (int i=0; i < {{field.name}}.length; i++)
-  {
-      IntPtr ptr = Marshal.ReadIntPtr({{field.name}}.ptr, Marshal.SizeOf(typeof(IntPtr)) * i);
-      if (ptr != null){
-        Marshal.FreeHGlobal(ptr);
-      }
-  }
-  Marshal.FreeHGlobal({{field.name}}.ptr);
-  {%- endif %}
-  {%- endfor %}
-
-}
-
 }

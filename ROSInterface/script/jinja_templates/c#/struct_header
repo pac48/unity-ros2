@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 public interface IROSMsg
 {
     public string GetMsgType();
-    public void Delete();
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]

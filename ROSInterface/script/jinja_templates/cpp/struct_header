@@ -1,5 +1,6 @@
 #pragma once
 
+#include "interface.h"
 {% for include in includes -%}
 #include "{{include}}.hpp"
 {% endfor %}
