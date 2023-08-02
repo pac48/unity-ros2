@@ -20,36 +20,40 @@ public class NewBehaviourScript : MonoBehaviour
         poses[1].position.x = 1.1;
         poses[1].position.y = 2.2;
         poses[1].position.z = 3.3;
-        ros.allocateStructArray(ref val4.poses, poses);
+        ROSInterface.allocateStructArray(ref val4.poses, poses);
         ros.PublishROS(ref val4, "pose_array");
-        ros.allocateStructArray(ref val4.poses, poses);
-        var poses_arr = ros.getStructArray<geometry_msgs_Pose>(val4.poses);
+        ROSInterface.allocateStructArray(ref val4.poses, poses);
+        var poses_arr = ROSInterface.getStructArray<geometry_msgs_Pose>(val4.poses);
+        val4.Delete();
 
         std_msgs_Float32MultiArray val2 = new std_msgs_Float32MultiArray();
         float[] data_vals = { 1, 2, 3 };
-        ros.allocateFloatArray(ref val2.data, data_vals);
+        ROSInterface.allocateFloatArray(ref val2.data, data_vals);
         std_msgs_MultiArrayDimension[] mulit = new std_msgs_MultiArrayDimension[2];
-        ros.allocateString(ref mulit[0].label, "sad");
+        ROSInterface.allocateString(ref mulit[0].label, "sad");
         mulit[0].size = 3;
-        ros.allocateString(ref mulit[1].label, "no");
-        ros.allocateStructArray(ref val2.layout.dim, mulit);
+        ROSInterface.allocateString(ref mulit[1].label, "no");
+        ROSInterface.allocateStructArray(ref val2.layout.dim, mulit);
         ros.PublishROS(ref val2, "array");
-
+        val2.Delete();
 
         sensor_msgs_JointState val3 = new sensor_msgs_JointState();
         string[] name_arr = { "joint_1", "joint_2", "joint_3" };
-        ros.allocateStringArray(ref val3.name, name_arr);
+        ROSInterface.allocateStringArray(ref val3.name, name_arr);
         double[] position_arr = { 1.1, 2.2, 3.3 };
-        ros.allocateDoubleArray(ref val3.position, position_arr);
+        ROSInterface.allocateDoubleArray(ref val3.position, position_arr);
         ros.PublishROS(ref val3, "joint_state");
+        val3.Delete();
 
         sensor_msgs_JointState val33 = new sensor_msgs_JointState();
         ros.ReceiveROS(ref val33, "joint_state");
-        var names = ros.getStringArray(val33.name);
-        var positions = ros.getDoubleArray(val33.position);
+        var names = ROSInterface.getStringArray(val33.name);
+        var positions = ROSInterface.getDoubleArray(val33.position);
+        val33.Delete();
 
         std_msgs_String val5 = new std_msgs_String();
         ros.ReceiveROS(ref val5, "chatter");
-        Debug.Log(ros.getString(val5.data));
+        Debug.Log(ROSInterface.getString(val5.data));
+        val5.Delete();
     }
 }

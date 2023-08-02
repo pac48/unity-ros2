@@ -24,7 +24,7 @@ public class ROSInterface : MonoBehaviour
         }
     }
 
-    public IntPtr[] AllocateArrayPtr<T>(ref CArray array, int len)
+    public static IntPtr[] AllocateArrayPtr<T>(ref CArray array, int len)
     {
         int elementSize = Marshal.SizeOf(typeof(T));
         if (array.ptr != IntPtr.Zero)
@@ -57,7 +57,7 @@ public class ROSInterface : MonoBehaviour
         return ret;
     }
 
-    public void allocateStructArray<T>(ref CArray array, T[] msgs) where T : IROSMsg
+    public static void allocateStructArray<T>(ref CArray array, T[] msgs) where T : IROSMsg
     {
         IntPtr[] arr = AllocateArrayPtr<T>(ref array, msgs.Length);
         for (int i = 0; i < msgs.Length; i++)
@@ -66,7 +66,7 @@ public class ROSInterface : MonoBehaviour
         }
     }
 
-    public void allocateStringArray(ref CArray array, string[] msgs)
+    public static void allocateStringArray(ref CArray array, string[] msgs)
     {
         IntPtr[] arr = AllocateArrayPtr<IntPtr>(ref array, msgs.Length);
         for (int i = 0; i < msgs.Length; i++)
@@ -75,19 +75,19 @@ public class ROSInterface : MonoBehaviour
         }
     }
 
-    public void allocateDoubleArray(ref CArray array, double[] msgs)
+    public static void allocateDoubleArray(ref CArray array, double[] msgs)
     {
         IntPtr[] arr = AllocateArrayPtr<double>(ref array, msgs.Length);
         Marshal.Copy(msgs, 0, arr[0], (int)array.length);
     }
 
-    public void allocateFloatArray(ref CArray array, float[] msgs)
+    public static void allocateFloatArray(ref CArray array, float[] msgs)
     {
         IntPtr[] arr = AllocateArrayPtr<float>(ref array, msgs.Length);
         Marshal.Copy(msgs, 0, arr[0], (int)array.length);
     }
 
-    public void allocateString(ref IntPtr ptr, string str)
+    public static void allocateString(ref IntPtr ptr, string str)
     {
         if (ptr != IntPtr.Zero)
         {
@@ -97,12 +97,12 @@ public class ROSInterface : MonoBehaviour
         ptr = Marshal.StringToHGlobalAnsi(str + "\0");
     }
 
-    public string getString(IntPtr ptr)
+    public static string getString(IntPtr ptr)
     {
         return Marshal.PtrToStringAnsi(ptr);
     }
 
-    public string[] getStringArray(CArray array)
+    public static string[] getStringArray(CArray array)
     {
         string[] ret = new string[array.length];
         int elementSize = Marshal.SizeOf(typeof(IntPtr));
@@ -115,19 +115,19 @@ public class ROSInterface : MonoBehaviour
         return ret;
     }
 
-    public double[] getDoubleArray(CArray array)
+    public static double[] getDoubleArray(CArray array)
     {
         double[] ret = new double[array.length];
         Marshal.Copy(array.ptr, ret, 0, (int)array.length);
         return ret;
     }
 
-    public T getStruct<T>(IntPtr ptr) where T : IROSMsg
+    public static T getStruct<T>(IntPtr ptr) where T : IROSMsg
     {
         return (T)Marshal.PtrToStructure(ptr, typeof(T));
     }
 
-    public T[] getStructArray<T>(CArray array) where T : IROSMsg
+    public static T[] getStructArray<T>(CArray array) where T : IROSMsg
     {
         T[] ret = new T[array.length];
         int elementSize = Marshal.SizeOf(typeof(T));
