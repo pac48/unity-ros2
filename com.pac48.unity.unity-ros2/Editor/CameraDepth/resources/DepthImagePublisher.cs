@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -20,7 +21,7 @@ public class DepthImagePublisher : MonoBehaviour
     private Texture2D texture2D;
     private Rect rect;
     private RenderTexture finalRT;
-    private ROSInterface ros_interface;
+    private sensor_msgs_Image msg;
 
     [Header("Shader Setup")] public Shader uberReplacementShader;
 
@@ -41,10 +42,17 @@ public class DepthImagePublisher : MonoBehaviour
 
     void Start()
     {
-        // ros_interface = FindObjectOfType<ROSInterface>();
         texture2D = new Texture2D(width, height, TextureFormat.RFloat, false);
         data = new byte[width * height * 4];
         rect = new Rect(0, 0, width, height);
+        
+        msg.header.frame_id = ROSInterface.AllocateString(FrameId); 
+        msg.data = ROSInterface.AllocateByteArray(data);
+        msg.height = (uint)height;
+        msg.width = (uint)width;
+        msg.encoding = ROSInterface.AllocateString("32FC1");
+        msg.step = (uint)(4 * width);
+        msg.is_bigendian = 0;
         
         if (!uberReplacementShader)
             uberReplacementShader = Shader.Find("Hidden/UberReplacement");
@@ -107,10 +115,10 @@ public class DepthImagePublisher : MonoBehaviour
                 }
             }
 
-            // ros_interface.native_image.height = height; 
-            // ros_interface.native_image.width = width;
-
-            // Publish();
+            Marshal.Copy(data, 0, msg.data.ptr, (int)msg.data.length);
+            ROSInterface.SetROSTime(ref msg.header.stamp);
+            ROSInterface.PublishROS(ref msg, topicName);
+            
             timeElapsed = 0;
         }
     }

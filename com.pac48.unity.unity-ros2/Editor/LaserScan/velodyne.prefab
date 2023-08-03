@@ -100,12 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateDir: 1
-  _numOfLayers: 1
   _numOfIncrements: 360
-  _minVerticalAngle: 0
-  _maxVerticalAngle: 0
-  _minAzimuthAngle: 0
-  _maxAzimuthAngle: 360
   _minRange: 0.1
   _maxRange: 10
   _maxIntensity: 255
@@ -125,9 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d928fda1f4ea4f18f589c4b7da6aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  should_publish: 0
   _topicName: scan
-  _frameId: scan_link
+  scan_link: {fileID: 4826835034166284396}
   angle_min: 0
   angle_max: 0
   angle_increment: 0

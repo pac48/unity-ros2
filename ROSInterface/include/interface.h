@@ -21,4 +21,6 @@ MY_LIB_API std::intptr_t Init(UnityAllocate allocator);
 MY_LIB_API void Receive(std::intptr_t handle, char *type, char *topic, void **output);
 MY_LIB_API void Publish(std::intptr_t handle, char *type, char *topic, void *input);
 MY_LIB_API void Destroy(std::intptr_t handle);
+MY_LIB_API void SendTransform(std::intptr_t handle, void* tf_msg);
+MY_LIB_API void SetROSTime(std::intptr_t handle, void* stamp_msg);
 }

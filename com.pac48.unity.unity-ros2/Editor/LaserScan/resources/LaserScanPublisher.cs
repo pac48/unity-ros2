@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.Burst;
 using UnityEngine.Jobs;
 using Unity.Jobs;
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
-// using RosMessageTypes.Sensor;
 
 [RequireComponent(typeof(RotateLidar))]
 public class LaserScanPublisher : MonoBehaviour
 {
     [SerializeField] public string _topicName = "scan";
-    [SerializeField] public string _frameId = "scan_link";
+    [SerializeField] public Transform scan_link;
+    public float publishMessageFrequency = 1.0f/10.0f;
+
     public float angle_min;
     public float angle_max;
     public float angle_increment;
@@ -20,9 +22,13 @@ public class LaserScanPublisher : MonoBehaviour
     public float scan_time;
     public float range_min;
     public float range_max;
-    public float[] ranges;
+    private float timeElapsed;
+
+    
+    private float[] ranges;
     public float[] intensities;
 
+    private sensor_msgs_LaserScan msg = new ();
     private JobHandle _handle;
     private float _timeElapsed = 0f;
     private double _timeStamp = 0f;
@@ -49,6 +55,19 @@ public class LaserScanPublisher : MonoBehaviour
         scan_time = 1f / this._lidar.scanRate;
         range_min = this._lidar.minRange;
         range_max = this._lidar.maxRange;
+        
+        msg.header.frame_id = ROSInterface.AllocateString(scan_link.name);
+        msg.angle_min = angle_min;
+        msg.angle_max = angle_max;
+        msg.angle_increment = angle_increment;
+        msg.time_increment = time_increment;
+        msg.scan_time = scan_time;
+        msg.range_min = range_min;
+        msg.range_max = range_max;
+        ranges = new float[_lidar.numOfIncrements * _lidar.numOfLayers];
+        intensities = new float[_lidar.numOfIncrements * _lidar.numOfLayers];
+        msg.ranges = ROSInterface.AllocateFloatArray(ranges);
+        msg.intensities = ROSInterface.AllocateFloatArray(intensities);
     }
 
     void OnDisable()
@@ -60,23 +79,24 @@ public class LaserScanPublisher : MonoBehaviour
 
     void Update()
     {
-        this._timeElapsed += Time.deltaTime;
+        timeElapsed += Time.deltaTime;
 
-
-        if (_timeElapsed > 1.0 / _lidar.scanRate)
+        if (timeElapsed > publishMessageFrequency)
         {
             _handle.Complete();
             // Update ROS Message
-            int sec = (int)Math.Truncate(this._timeStamp);
-            uint nanosec = (uint)((this._timeStamp - sec) * 1e+9);
-            
-            
+
             ranges = this._lidar.distances.ToArray();
             intensities = this._lidar.intensities.ToArray();
-            // Publish();
+
+            Marshal.Copy(ranges, 0, msg.ranges.ptr, (int) msg.ranges.length); 
+            Marshal.Copy(intensities, 0, msg.intensities.ptr, (int) msg.intensities.length);
+            ROSInterface.SetROSTime(ref msg.header.stamp);
+            ROSInterface.PublishROS(ref msg, _topicName);
+            ROSInterface.SendTransform(scan_link);
             
             // Update time
-            this._timeElapsed = 0;
+            timeElapsed = 0;
             this._timeStamp = Time.timeAsDouble;
 
             // Update Raycast Command
@@ -103,3 +123,4 @@ public class LaserScanPublisher : MonoBehaviour
         }
     }
 }
+// using RosMessageTypes.Sensor;

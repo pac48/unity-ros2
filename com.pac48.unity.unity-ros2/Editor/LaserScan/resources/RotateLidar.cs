@@ -22,22 +22,27 @@ public class RotateLidar : MonoBehaviour
     [SerializeField] RotateDir _rotateDir = RotateDir.CCW;
 
     // Number of Layers
-    [SerializeField] private int _numOfLayers = 1;
+    //[SerializeField] 
+    private int _numOfLayers = 1;
 
     // Number of Increments for one rotation 
     [SerializeField] private int _numOfIncrements = 360;
 
     // Minimum vertical angle (deg)
-    [SerializeField] private float _minVerticalAngle = 0f;
+    //[SerializeField] 
+    private float _minVerticalAngle = 0f;
 
     // Maximum vertical angle (deg)
-    [SerializeField] private float _maxVerticalAngle = 0f;
+    //[SerializeField]
+    private float _maxVerticalAngle = 0f;
 
     // Minimum azimuth angle (deg)
-    [SerializeField] private float _minAzimuthAngle = 0f;
+    //[SerializeField]
+    private float _minAzimuthAngle = 0f;
 
     // Maximum azimuth angle (deg)
-    [SerializeField] private float _maxAzimuthAngle = 360f;
+    //[SerializeField] //TODO reanble when point cloud is supported
+    private float _maxAzimuthAngle = 360f;
 
     // Minimum range (m)
     [SerializeField] private float _minRange = 0.1f;

@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class ImagePublisher : MonoBehaviour
@@ -10,22 +11,29 @@ public class ImagePublisher : MonoBehaviour
     public string FrameId = "unity_camera/color_frame";
     public int width = 640;
     public int height = 480;
-    public float publishMessageFrequency = 1.0f/20.0f;
-    
+    public float publishMessageFrequency = 1.0f / 20.0f;
+    private sensor_msgs_Image msg;
+
     public byte[] data;
     public int step;
     private float timeElapsed;
     private Texture2D texture2D;
     private Rect rect;
     private RenderTexture finalRT;
-    private ROSInterface ros_interface;
 
     void Start()
     {
-        // ros_interface = FindObjectOfType<ROSInterface>();
         texture2D = new Texture2D(width, height, TextureFormat.RGBA32, false);
         data = new byte[width * height * 4];
         rect = new Rect(0, 0, width, height);
+
+        msg.header.frame_id = ROSInterface.AllocateString(FrameId); 
+        msg.data = ROSInterface.AllocateByteArray(data);
+        msg.height = (uint)height;
+        msg.width = (uint)width;
+        msg.encoding = ROSInterface.AllocateString("rgba8");
+        msg.step = (uint)(4 * width);
+        msg.is_bigendian = 0;
 
         bool supportsAntialiasing = true;
         bool needsRescale = false;
@@ -60,6 +68,7 @@ public class ImagePublisher : MonoBehaviour
             {
                 data = new byte[height * width * 4];
             }
+
             string encoding = "rgba8";
             byte is_bigendian = 0;
             step = 4 * width;
@@ -78,10 +87,9 @@ public class ImagePublisher : MonoBehaviour
                 }
             }
 
-            // ros_interface.native_image.height = height; 
-            // ros_interface.native_image.width = width;
-
-            // Publish();
+            Marshal.Copy(data, 0, msg.data.ptr, (int)msg.data.length);
+            ROSInterface.SetROSTime(ref msg.header.stamp);
+            ROSInterface.PublishROS(ref msg, topicName);
             timeElapsed = 0;
         }
     }
