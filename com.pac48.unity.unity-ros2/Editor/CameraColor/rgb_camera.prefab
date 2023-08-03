@@ -48,17 +48,25 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -98,9 +106,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topicName: unity_camera/color/image_raw
-  cameraInfoTopicName: unity_camera/rgb/camera_info
   ImageCamera: {fileID: 5036879926583406006}
   FrameId: rgb_camera
-  resolutionWidth: 640
-  resolutionHeight: 480
+  width: 640
+  height: 480
   publishMessageFrequency: 0.05
+  data: 
+  step: 0

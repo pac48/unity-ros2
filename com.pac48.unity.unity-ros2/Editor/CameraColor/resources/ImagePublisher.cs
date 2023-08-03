@@ -8,7 +8,7 @@ public class ImagePublisher : MonoBehaviour
 
     // The game object
     public Camera ImageCamera;
-    public string FrameId = "unity_camera/color_frame";
+    public Transform opticalLink;
     public int width = 640;
     public int height = 480;
     public float publishMessageFrequency = 1.0f / 20.0f;
@@ -27,7 +27,7 @@ public class ImagePublisher : MonoBehaviour
         data = new byte[width * height * 4];
         rect = new Rect(0, 0, width, height);
 
-        msg.header.frame_id = ROSInterface.AllocateString(FrameId); 
+        msg.header.frame_id = ROSInterface.AllocateString(opticalLink.name); 
         msg.data = ROSInterface.AllocateByteArray(data);
         msg.height = (uint)height;
         msg.width = (uint)width;
@@ -90,6 +90,7 @@ public class ImagePublisher : MonoBehaviour
             Marshal.Copy(data, 0, msg.data.ptr, (int)msg.data.length);
             ROSInterface.SetROSTime(ref msg.header.stamp);
             ROSInterface.PublishROS(ref msg, topicName);
+            ROSInterface.SendTransform(opticalLink);
             timeElapsed = 0;
         }
     }
