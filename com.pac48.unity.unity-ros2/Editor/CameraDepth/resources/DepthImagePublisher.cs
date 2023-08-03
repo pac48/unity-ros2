@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
 public class DepthImagePublisher : MonoBehaviour
 {
     public string topicName = "unity_camera/depth/image_raw";
-    // public string cameraInfoTopicName = "unity_camera/rgb/camera_info";
+    public string infoTopicName = "unity_camera/depth/camera_info";
 
     // The game object
     public Camera ImageCamera;
@@ -22,6 +24,7 @@ public class DepthImagePublisher : MonoBehaviour
     private Rect rect;
     private RenderTexture finalRT;
     private sensor_msgs_Image msg;
+    private sensor_msgs_CameraInfo info_msg;
 
     [Header("Shader Setup")] public Shader uberReplacementShader;
 
@@ -39,7 +42,68 @@ public class DepthImagePublisher : MonoBehaviour
         cam.allowHDR = false;
         cam.allowMSAA = false;
     }
+    private void GetCameraInfo()
+    {
+        info_msg = new sensor_msgs_CameraInfo();
+        info_msg.width = (uint)width;
+        info_msg.height = (uint)height;
 
+        //Focal center currently assumes zero lens shift.
+        //Focal center x.
+        double cX = width / 2.0;
+        //Focal center y.
+        double cY = height / 2.0;
+
+        //Get the vertical field of view of the camera taking into account any physical camera settings.
+        Assert.IsFalse(ImageCamera.usePhysicalProperties);
+        float verticalFieldOfView = ImageCamera.fieldOfView;
+        
+        double focalLengthInPixels =
+            (height / 2.0) / Math.Tan((Mathf.Deg2Rad * verticalFieldOfView) / 2.0);
+        //Focal Length (x)
+        double fX = focalLengthInPixels;
+        //Focal Length (y)
+        double fY = focalLengthInPixels;
+
+        //Axis Skew, Assuming none.
+        double s = 0.0;
+        //http://ksimek.github.io/2013/08/13/intrinsic/
+        info_msg.k = new []
+        {
+            fX, s, cX,
+            0, fY, cY,
+            0, 0, 1
+        };
+
+        info_msg.distortion_model = ROSInterface.AllocateString("plumb_bob");
+        info_msg.d = ROSInterface.AllocateDoubleArray(new[]
+            {
+                0.0, //k1
+                0.0, //k2
+                0.0, //t1
+                0.0, //t2
+                0.0 //k3
+            }
+        );
+
+        info_msg.r = new double[]
+        {
+            1, 0, 0,
+            0, 1, 0,
+            0, 0, 1
+        };
+
+        info_msg.p = new double[]
+        {
+            fX, 0, cX, 0,
+            0, fY, cY, 0,
+            0, 0, 1, 0
+        };
+
+        info_msg.binning_x = 0;
+        info_msg.binning_y = 0;
+        
+    }
     void Start()
     {
         texture2D = new Texture2D(width, height, TextureFormat.RFloat, false);
@@ -53,6 +117,8 @@ public class DepthImagePublisher : MonoBehaviour
         msg.encoding = ROSInterface.AllocateString("32FC1");
         msg.step = (uint)(4 * width);
         msg.is_bigendian = 0;
+
+        GetCameraInfo();
         
         if (!uberReplacementShader)
             uberReplacementShader = Shader.Find("Hidden/UberReplacement");
@@ -119,6 +185,8 @@ public class DepthImagePublisher : MonoBehaviour
             ROSInterface.SetROSTime(ref msg.header.stamp);
             ROSInterface.PublishROS(ref msg, topicName);
             ROSInterface.SendTransform(opticalLink);
+            
+            ROSInterface.PublishROS(ref info_msg, infoTopicName);
             
             timeElapsed = 0;
         }
