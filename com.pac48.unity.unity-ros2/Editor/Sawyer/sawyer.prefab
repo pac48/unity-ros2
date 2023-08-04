@@ -114,8 +114,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -175
     upperLimit: 175
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -139,10 +139,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -153,7 +153,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &2427190892193315012
 MeshCollider:
@@ -292,9 +292,9 @@ ArticulationBody:
   m_GameObject: {fileID: 645688305019911111}
   m_Enabled: 1
   serializedVersion: 5
-  m_Mass: 0.001
-  m_ParentAnchorPosition: {x: -0.0014999121, y: 0.04447133, z: 0.003000044}
-  m_ParentAnchorRotation: {x: -0.7071068, y: -0.70710695, z: 0.0000000842937, w: 0.00000014751399}
+  m_Mass: 0.01
+  m_ParentAnchorPosition: {x: -0.0030000436, y: 0.0865713, z: -0.0014999136}
+  m_ParentAnchorRotation: {x: -0.50000006, y: -0.50000006, z: -0.5000001, w: -0.5000001}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -325,18 +325,18 @@ ArticulationBody:
     driveType: 0
   m_ZDrive:
     lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
+    upperLimit: 0.03
+    stiffness: 100
+    damping: 10
+    forceLimit: 10
+    target: 0.03
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
   m_AngularDamping: 0.05
   m_JointFriction: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaTensor: {x: 0.001, y: 0.001, z: 0.001}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -345,9 +345,9 @@ ArticulationBody:
     serializedVersion: 2
     m_Bits: 0
   m_ImplicitCom: 1
-  m_ImplicitTensor: 1
+  m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!65 &4751467540903300751
 BoxCollider:
@@ -482,8 +482,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -270
     upperLimit: 270
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -507,10 +507,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -521,7 +521,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &4390781817944509306
 MeshCollider:
@@ -680,8 +680,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -175
     upperLimit: 175
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -705,10 +705,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -719,7 +719,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &1343277252670425444
 MeshCollider:
@@ -857,8 +857,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -882,10 +882,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -896,7 +896,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &4601129772999920014
 MeshCollider:
@@ -1035,9 +1035,9 @@ ArticulationBody:
   m_GameObject: {fileID: 4816376368438047493}
   m_Enabled: 1
   serializedVersion: 5
-  m_Mass: 0.001
-  m_ParentAnchorPosition: {x: -0.0041951146, y: 0.04447133, z: 0.0030000454}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_Mass: 0.01
+  m_ParentAnchorPosition: {x: -0.0030000438, y: 0.0865713, z: -0.0041951165}
+  m_ParentAnchorRotation: {x: -0.5000002, y: -0.5000002, z: 0.4999999, w: 0.49999997}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -1068,18 +1068,18 @@ ArticulationBody:
     driveType: 0
   m_ZDrive:
     lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
+    upperLimit: 0.03
+    stiffness: 100
+    damping: 10
+    forceLimit: 10
+    target: 0.03
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
   m_AngularDamping: 0.05
   m_JointFriction: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaTensor: {x: 0.001, y: 0.001, z: 0.001}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1088,9 +1088,9 @@ ArticulationBody:
     serializedVersion: 2
     m_Bits: 0
   m_ImplicitCom: 1
-  m_ImplicitTensor: 1
+  m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!65 &5024571638245611774
 BoxCollider:
@@ -1124,7 +1124,6 @@ GameObject:
   - component: {fileID: 213295523514294996}
   - component: {fileID: 1682113248276677301}
   - component: {fileID: 6465361317642430451}
-  - component: {fileID: 1431908118370206855}
   m_Layer: 0
   m_Name: connector_plate
   m_TagString: Untagged
@@ -1198,72 +1197,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5739364450733936828}
   m_Mesh: {fileID: -8531431469420756202, guid: 9c9263abd6a735b29ac84c0bc008819c, type: 3}
---- !u!171741748 &1431908118370206855
-ArticulationBody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5739364450733936828}
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Mass: 0.01
-  m_ParentAnchorPosition: {x: -0.00000005104725, y: 0.02450022, z: 0.0000001322478}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071069, w: 0.7071069}
-  m_AnchorPosition: {x: 0, y: 0, z: 0}
-  m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_MatchAnchors: 1
-  m_ArticulationJointType: 0
-  m_LinearX: 2
-  m_LinearY: 2
-  m_LinearZ: 2
-  m_SwingY: 2
-  m_SwingZ: 2
-  m_Twist: 2
-  m_XDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
-    targetVelocity: 0
-    driveType: 0
-  m_YDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
-    targetVelocity: 0
-    driveType: 0
-  m_ZDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
-    targetVelocity: 0
-    driveType: 0
-  m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_Immovable: 0
-  m_UseGravity: 1
-  m_CollisionDetectionMode: 0
 --- !u!1 &6065224437039823923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1377,8 +1310,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -170.5
     upperLimit: 170.5
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -1402,10 +1335,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1416,7 +1349,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &3903822543415563335
 MeshCollider:
@@ -1451,7 +1384,6 @@ GameObject:
   - component: {fileID: 5304280763455621833}
   - component: {fileID: 906534476776721822}
   - component: {fileID: 6930551860400600188}
-  - component: {fileID: 4330443850886996360}
   - component: {fileID: 6156541515410331405}
   m_Layer: 0
   m_Name: electric_gripper_base
@@ -1527,72 +1459,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8558990352008459067}
   m_Mesh: {fileID: -8216480828678238811, guid: 9c9263abd6a735b29ac84c0bc008819c, type: 3}
---- !u!171741748 &4330443850886996360
-ArticulationBody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8558990352008459067}
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Mass: 0.03292
-  m_ParentAnchorPosition: {x: -0.000000059719284, y: 0.017600216, z: 0.00000012665987}
-  m_ParentAnchorRotation: {x: -0.5000002, y: -0.5000002, z: 0.4999999, w: 0.49999997}
-  m_AnchorPosition: {x: 0, y: 0, z: 0}
-  m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_MatchAnchors: 1
-  m_ArticulationJointType: 0
-  m_LinearX: 2
-  m_LinearY: 2
-  m_LinearZ: 2
-  m_SwingY: 2
-  m_SwingZ: 2
-  m_Twist: 2
-  m_XDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
-    targetVelocity: 0
-    driveType: 0
-  m_YDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
-    targetVelocity: 0
-    driveType: 0
-  m_ZDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
-    forceLimit: 3.4028235e+38
-    target: 0
-    targetVelocity: 0
-    driveType: 0
-  m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_Immovable: 0
-  m_UseGravity: 1
-  m_CollisionDetectionMode: 0
 --- !u!65 &6156541515410331405
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1728,8 +1594,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -175
     upperLimit: 175
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -1753,10 +1619,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1767,7 +1633,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &2705217237904876226
 MeshCollider:
@@ -1909,7 +1775,7 @@ ArticulationBody:
   m_GameObject: {fileID: 8906801580784983986}
   m_Enabled: 1
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 10
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
@@ -2143,8 +2009,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -175
     upperLimit: 175
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -2168,10 +2034,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -2182,7 +2048,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &6186285184446583957
 MeshCollider:
@@ -2321,8 +2187,8 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: -170.5
     upperLimit: 170.5
-    stiffness: 10000
-    damping: 2000
+    stiffness: 1000
+    damping: 100
     forceLimit: 50
     target: 0
     targetVelocity: 0
@@ -2346,10 +2212,10 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0.05
-  m_AngularDamping: 0.05
-  m_JointFriction: 0.05
+  m_AngularDamping: 0.025
+  m_JointFriction: 0.025
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 0.1, y: 0.1, z: 0.1}
+  m_InertiaTensor: {x: 0.01, y: 0.01, z: 0.01}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -2360,7 +2226,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!64 &2877250259565821756
 MeshCollider:
