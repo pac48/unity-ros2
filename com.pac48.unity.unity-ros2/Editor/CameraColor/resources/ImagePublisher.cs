@@ -29,6 +29,7 @@ public class ImagePublisher : MonoBehaviour
     private void GetCameraInfo()
     {
         info_msg = new sensor_msgs_CameraInfo();
+        info_msg.header.frame_id = ROSInterface.AllocateString(opticalLink.name);
         info_msg.width = (uint)width;
         info_msg.height = (uint)height;
 
@@ -102,9 +103,9 @@ public class ImagePublisher : MonoBehaviour
         msg.encoding = ROSInterface.AllocateString("rgba8");
         msg.step = (uint)(4 * width);
         msg.is_bigendian = 0;
-
+        
         GetCameraInfo();
-
+        
         bool supportsAntialiasing = true;
         bool needsRescale = false;
         var depth = 32;
@@ -162,6 +163,8 @@ public class ImagePublisher : MonoBehaviour
             ROSInterface.PublishROS(ref msg, topicName);
             ROSInterface.SendTransform(opticalLink);
 
+            info_msg.header.stamp.sec = msg.header.stamp.sec;
+            info_msg.header.stamp.nanosec = msg.header.stamp.nanosec;
             ROSInterface.PublishROS(ref info_msg, infoTopicName);
 
             timeElapsed = 0;
