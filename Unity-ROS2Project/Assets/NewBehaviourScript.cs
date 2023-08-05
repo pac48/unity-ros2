@@ -38,7 +38,7 @@ public class NewBehaviourScript : MonoBehaviour
         val3.name = ROSInterface.AllocateStringArray(name_arr);
         double[] position_arr = { 1.1, 2.2, 3.3 };
         val3.position = ROSInterface.AllocateDoubleArray(position_arr);
-        ROSInterface.PublishROS(ref val3, "joint_state");
+        ROSInterface.PublishROS(ref val3, "joint_state_topic");
 
         sensor_msgs_JointState val33 = ROSInterface.ReceiveROS<sensor_msgs_JointState>("joint_state");
         var names = ROSInterface.GetStringArray(val33.name);
