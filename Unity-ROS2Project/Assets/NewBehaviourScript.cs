@@ -48,10 +48,18 @@ public class NewBehaviourScript : MonoBehaviour
         var str = ROSInterface.GetString(val5.data);
         // Debug.Log(str);
         
+        var val6 = new intera_core_msgs_JointCommand();
+        string[] name_arr2 = { "j_1", "j_2", "j_3" };
+        val6.names = ROSInterface.AllocateStringArray(name_arr2);
+        double[] position_arr2 = { 1.1, 2.2, 3.3 };
+        val3.position = ROSInterface.AllocateDoubleArray(position_arr2);
+        ROSInterface.PublishROS(ref val6, "joint_command");
+        
         val2.Delete();
         val3.Delete();
         val33.Delete();
         val4.Delete();
         val5.Delete();
+        val6.Delete();
     }
 }

@@ -1691,8 +1691,8 @@ GameObject:
   - component: {fileID: 3774170827712734182}
   - component: {fileID: 825801373564201899}
   - component: {fileID: 480818322206746325}
-  - component: {fileID: 8423902314773697748}
   - component: {fileID: 1801396407320379126}
+  - component: {fileID: 8208034312431528294}
   m_Layer: 0
   m_Name: sawyer
   m_TagString: Untagged
@@ -1854,27 +1854,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1388485733357891733, guid: 9c9263abd6a735b29ac84c0bc008819c, type: 3}
---- !u!114 &8423902314773697748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8906801580784983986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 888cf7c79933b4f338607eee450d4fee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseLink: {fileID: 8906801580784983986}
-  l0: {fileID: 2511702714833136302}
-  l1: {fileID: 8565138404339122833}
-  l2: {fileID: 9003356530617726663}
-  l3: {fileID: 8424526659816019}
-  l4: {fileID: 6065224437039823923}
-  l5: {fileID: 9095463751124745428}
-  l6: {fileID: 2075202744696013950}
-  head: {fileID: 4371897398709216933}
 --- !u!65 &1801396407320379126
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1896,6 +1875,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.15, y: 0.075, z: 0.15}
   m_Center: {x: 0, y: 0.039, z: 0}
+--- !u!114 &8208034312431528294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8906801580784983986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 634e1f4ab81d42c08e3507524cc65e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  articulatedBody: {fileID: 825801373564201899}
+  topicName: joint_states
 --- !u!1 &9003356530617726663
 GameObject:
   m_ObjectHideFlags: 0

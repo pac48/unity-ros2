@@ -137,7 +137,7 @@ def convert_messages(create_struct, known_conversions):
     msgs_map = dict()
     includes = []
 
-    message_packages = ['std_msgs', 'geometry_msgs', 'sensor_msgs', 'nav_msgs', 'builtin_interfaces']
+    message_packages = ['std_msgs', 'geometry_msgs', 'sensor_msgs', 'nav_msgs', 'builtin_interfaces', 'intera_core_msgs']
     for package in message_packages:
 
         directory_path = f'common_interfaces/{package}/msg/'

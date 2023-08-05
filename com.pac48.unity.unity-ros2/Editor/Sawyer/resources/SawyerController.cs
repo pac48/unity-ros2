@@ -4,43 +4,38 @@ using UnityEngine;
 
 public class SawyerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject baseLink;
-    public GameObject l0;
-    public GameObject l1;
-    public GameObject l2;
-    public GameObject l3;
-    public GameObject l4;
-    public GameObject l5;
-    public GameObject l6;
-    public GameObject head;
+    public ArticulationBody articulatedBody;
+    public string topicName;
+
+    private Hashtable name2ind;
+    private Hashtable ind2name;
+    private List<float> positions;
+    private sensor_msgs_JointState msg;
 
     void Start()
     {
-        // Physics.IgnoreCollision(baseLink.GetComponent<Collider>(),l0.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l0.GetComponent<Collider>(),head.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l0.GetComponent<Collider>(),l1.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l1.GetComponent<Collider>(),l2.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l2.GetComponent<Collider>(),l3.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l3.GetComponent<Collider>(),l4.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l4.GetComponent<Collider>(),l5.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l5.GetComponent<Collider>(),l6.GetComponent<Collider>());
-        //
-        //
-        // Physics.IgnoreCollision(l1.GetComponent<Collider>(),l0.GetComponent<Collider>());
-        // Physics.IgnoreCollision(l2.GetComponent<Collider>(),l1.GetComponent<Collider>());
-    }
+        foreach (var joint in articulatedBody.GetComponentsInChildren<ArticulationBody>())
+        {
+            name2ind.Add(joint.name, joint.index);
+            ind2name.Add(joint.index, joint.name);
+        }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        int o = 0;
-
+        msg = new sensor_msgs_JointState();
+        // msg.
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        articulatedBody.GetJointPositions(positions);
+        int ind = 0;
+        foreach (var angle in positions)
+        {
+            
+            ind++;
+        }
         
+        ROSInterface.SetROSTime(ref msg.header.stamp);
+        ROSInterface.PublishROS(ref msg, topicName);
     }
 }

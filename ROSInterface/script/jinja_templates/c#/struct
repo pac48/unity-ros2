@@ -28,7 +28,7 @@ public void Delete(){
     {{field.name}}[i] = IntPtr.Zero;
   }
   {% elif  field.msg_type in all_custom_types and field.length==-1-%}
-  foreach (var inst in ROSInterface.getStructArray<{{field.declaration}}>({{field.name}}))
+  foreach (var inst in ROSInterface.GetStructArray<{{field.declaration}}>({{field.name}}))
   {
     inst.Delete();
   }

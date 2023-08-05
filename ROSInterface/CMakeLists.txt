@@ -13,10 +13,10 @@ find_package(sensor_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(builtin_interfaces REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 find_package(rosidl_default_runtime REQUIRED)
 
 include_directories(${EIGEN3_INCLUDE_DIRS})
-
 
 set(generated_sources src/generated/sub_pub_interface.cpp
     src/generated/builtin_interfaces_Duration.cpp
@@ -111,16 +111,16 @@ set(generated_sources src/generated/sub_pub_interface.cpp
     src/generated/std_msgs_UInt64.cpp
     src/generated/std_msgs_UInt64MultiArray.cpp
     src/generated/std_msgs_UInt8.cpp
-    src/generated/std_msgs_UInt8MultiArray.cpp)
+    src/generated/std_msgs_UInt8MultiArray.cpp
+    src/generated/intera_core_msgs_JointCommand.cpp
+    )
 
-if (DEFINED DEVEL_MODE)
-  add_library(ROSInterface SHARED src/interface.cpp)
-  add_library(ROSInterfaceGenerated SHARED ${generated_sources})
-  set(target_list ROSInterfaceGenerated)
-else ()
-  add_library(ROSInterface SHARED src/interface.cpp ${generated_sources})
-  set(target_list ROSInterface)
-endif ()
+add_subdirectory(script/common_interfaces/intera_core_msgs EXCLUDE_FROM_ALL)
+
+
+add_library(ROSInterface SHARED src/interface.cpp)
+add_library(ROSInterfaceGenerated SHARED ${generated_sources})
+set(target_list ROSInterfaceGenerated)
 
 foreach (target IN LISTS target_list)
   target_include_directories(${target} PUBLIC include)
@@ -159,7 +159,10 @@ foreach (target IN LISTS target_list)
   target_include_directories(${target} PUBLIC ${tf2_ros_INCLUDE_DIRS})
   target_include_directories(${target} PUBLIC ${tracetools_INCLUDE_DIRS})
 
+  # add all generated messages
+  target_include_directories(${target} PUBLIC ${intera_core_msgs_BINARY_DIR}/rosidl_generator_cpp)
 
+  # link all rclcpp libs needed
   target_link_libraries(${target} PUBLIC ${builtin_interfaces_LIBRARIES})
   target_link_libraries(${target} PUBLIC ${libstatistics_collector_LIBRARIES})
   target_link_libraries(${target} PUBLIC ${rcl_LIBRARIES})
@@ -196,20 +199,36 @@ foreach (target IN LISTS target_list)
 endforeach ()
 
 # install targets
-if (DEFINED DEVEL_MODE)
-  #target_compile_options(ROSInterfaceGenerated PUBLIC -g -O3)
-  target_link_libraries(ROSInterface PUBLIC ROSInterfaceGenerated)
-  target_compile_options(ROSInterface PUBLIC -g -O0)
+#target_compile_options(ROSInterfaceGenerated PUBLIC -g -O3)
+target_link_libraries(ROSInterface PUBLIC ROSInterfaceGenerated)
+target_compile_options(ROSInterface PUBLIC -g -O0)
+set_target_properties(ROSInterfaceGenerated PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+install(TARGETS ROSInterfaceGenerated
+    LIBRARY DESTINATION lib
+    )
 
-  set_target_properties(ROSInterfaceGenerated PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-  install(TARGETS ROSInterfaceGenerated
-      LIBRARY DESTINATION lib
-      )
-endif ()
+set(type_support_libs
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_generator_c.so
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_c.so
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_cpp.so
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_fastrtps_c.so
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_fastrtps_cpp.so
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_introspection_c.so
+    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_introspection_cpp.so
+    )
+
+foreach (type_support_lib ${type_support_libs})
+  target_link_libraries(ROSInterface PUBLIC ${type_support_lib})
+endforeach ()
 
 set_target_properties(ROSInterface PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 install(TARGETS ROSInterface
     LIBRARY DESTINATION lib
+    )
+
+
+install(FILES ${type_support_libs}
+    DESTINATION lib
     )
 
 add_executable(ROSInterfaceTest test.cpp)

@@ -15,323 +15,6 @@ public struct CArray
 
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_UInt8 : IROSMsg
-{
-    public byte data; // byte
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::UInt8";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_PointField : IROSMsg
-{
-    public byte INT8; // = 1 // byte
-    public byte UINT8; // = 2 // byte
-    public byte INT16; // = 3 // byte
-    public byte UINT16; // = 4 // byte
-    public byte INT32; // = 5 // byte
-    public byte UINT32; // = 6 // byte
-    public byte FLOAT32; // = 7 // byte
-    public byte FLOAT64; // = 8 // byte
-    public IntPtr name; // IntPtr
-    public uint offset; // uint
-    public byte datatype; // byte
-    public uint count; // uint
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::PointField";
-    }
-
-    public void Delete()
-    {
-        ROSInterface.Free(name);
-        name = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_UInt64 : IROSMsg
-{
-    public ulong data; // ulong
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::UInt64";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_ColorRGBA : IROSMsg
-{
-    public float r; // float
-    public float g; // float
-    public float b; // float
-    public float a; // float
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::ColorRGBA";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Point32 : IROSMsg
-{
-    public float x; // float
-    public float y; // float
-    public float z; // float
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Point32";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Empty : IROSMsg
-{
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Empty";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct builtin_interfaces_Duration : IROSMsg
-{
-    public int sec; // int
-    public uint nanosec; // uint
-
-    public string GetMsgType()
-    {
-        return "builtin_interfaces::msg::Duration";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Bool : IROSMsg
-{
-    public bool data; // bool
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Bool";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_RegionOfInterest : IROSMsg
-{
-    public uint x_offset; // uint
-    public uint y_offset; // uint
-    public uint height; // uint
-    public uint width; // uint
-    public bool do_rectify; // bool
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::RegionOfInterest";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int64 : IROSMsg
-{
-    public long data; // long
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Int64";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_LaserEcho : IROSMsg
-{
-    public CArray echoes; // float
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::LaserEcho";
-    }
-
-    public void Delete()
-    {
-        ROSInterface.Free(echoes.ptr);
-        echoes.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct builtin_interfaces_Time : IROSMsg
-{
-    public int sec; // int
-    public uint nanosec; // uint
-
-    public string GetMsgType()
-    {
-        return "builtin_interfaces::msg::Time";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int8 : IROSMsg
-{
-    public sbyte data; // sbyte
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Int8";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Float32 : IROSMsg
-{
-    public float data; // float
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Float32";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_NavSatStatus : IROSMsg
-{
-    public sbyte STATUS_NO_FIX; // = -1 // sbyte
-    public sbyte STATUS_FIX; // = 0 // sbyte
-    public sbyte STATUS_SBAS_FIX; // = 1 // sbyte
-    public sbyte STATUS_GBAS_FIX; // = 2 // sbyte
-    public sbyte status; // sbyte
-    public ushort SERVICE_GPS; // = 1 // ushort
-    public ushort SERVICE_GLONASS; // = 2 // ushort
-    public ushort SERVICE_COMPASS; // = 4 // ushort
-    public ushort SERVICE_GALILEO; // = 8 // ushort
-    public ushort service; // ushort
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::NavSatStatus";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_MultiArrayDimension : IROSMsg
-{
-    public IntPtr label; // IntPtr
-    public uint size; // uint
-    public uint stride; // uint
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::MultiArrayDimension";
-    }
-
-    public void Delete()
-    {
-        ROSInterface.Free(label);
-        label = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_MultiArrayLayout : IROSMsg
-{
-    public CArray dim; // std_msgs_MultiArrayDimension
-    public uint data_offset; // uint
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::MultiArrayLayout";
-    }
-
-    public void Delete()
-    {
-        foreach (var inst in ROSInterface.GetStructArray<std_msgs_MultiArrayDimension>(dim))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(dim.ptr);
-        dim.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Pose2D : IROSMsg
-{
-    public double x; // double
-    public double y; // double
-    public double theta; // double
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Pose2D";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct geometry_msgs_Quaternion : IROSMsg
 {
     public double x; // double
@@ -346,149 +29,6 @@ public struct geometry_msgs_Quaternion : IROSMsg
 
     public void Delete()
     {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_UInt32MultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // uint
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::UInt32MultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Float64MultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // double
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Float64MultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_ChannelFloat32 : IROSMsg
-{
-    public IntPtr name; // IntPtr
-    public CArray values; // float
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::ChannelFloat32";
-    }
-
-    public void Delete()
-    {
-        ROSInterface.Free(name);
-        name = IntPtr.Zero;
-        ROSInterface.Free(values.ptr);
-        values.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_UInt8MultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // byte
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::UInt8MultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_String : IROSMsg
-{
-    public IntPtr data; // IntPtr
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::String";
-    }
-
-    public void Delete()
-    {
-        ROSInterface.Free(data);
-        data = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int16 : IROSMsg
-{
-    public short data; // short
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Int16";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Byte : IROSMsg
-{
-    public byte data; // byte
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Byte";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_ByteMultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // byte
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::ByteMultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
     }
 }
 
@@ -523,15 +63,15 @@ public struct std_msgs_UInt16 : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Vector3 : IROSMsg
+public struct geometry_msgs_Point32 : IROSMsg
 {
-    public double x; // double
-    public double y; // double
-    public double z; // double
+    public float x; // float
+    public float y; // float
+    public float z; // float
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::Vector3";
+        return "geometry_msgs::msg::Point32";
     }
 
     public void Delete()
@@ -540,25 +80,139 @@ public struct geometry_msgs_Vector3 : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Inertia : IROSMsg
+public struct builtin_interfaces_Time : IROSMsg
 {
-    public double m; // double
-    public geometry_msgs_Vector3 com; // geometry_msgs_Vector3
-    public double ixx; // double
-    public double ixy; // double
-    public double ixz; // double
-    public double iyy; // double
-    public double iyz; // double
-    public double izz; // double
+    public int sec; // int
+    public uint nanosec; // uint
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::Inertia";
+        return "builtin_interfaces::msg::Time";
     }
 
     public void Delete()
     {
-        com.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Int64 : IROSMsg
+{
+    public long data; // long
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Int64";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Empty : IROSMsg
+{
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Empty";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_NavSatStatus : IROSMsg
+{
+    public sbyte STATUS_NO_FIX; // = -1 // sbyte
+    public sbyte STATUS_FIX; // = 0 // sbyte
+    public sbyte STATUS_SBAS_FIX; // = 1 // sbyte
+    public sbyte STATUS_GBAS_FIX; // = 2 // sbyte
+    public sbyte status; // sbyte
+    public ushort SERVICE_GPS; // = 1 // ushort
+    public ushort SERVICE_GLONASS; // = 2 // ushort
+    public ushort SERVICE_COMPASS; // = 4 // ushort
+    public ushort SERVICE_GALILEO; // = 8 // ushort
+    public ushort service; // ushort
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::NavSatStatus";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_RegionOfInterest : IROSMsg
+{
+    public uint x_offset; // uint
+    public uint y_offset; // uint
+    public uint height; // uint
+    public uint width; // uint
+    public bool do_rectify; // bool
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::RegionOfInterest";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct builtin_interfaces_Duration : IROSMsg
+{
+    public int sec; // int
+    public uint nanosec; // uint
+
+    public string GetMsgType()
+    {
+        return "builtin_interfaces::msg::Duration";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_LaserEcho : IROSMsg
+{
+    public CArray echoes; // float
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::LaserEcho";
+    }
+
+    public void Delete()
+    {
+        ROSInterface.Free(echoes.ptr);
+        echoes.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_Pose2D : IROSMsg
+{
+    public double x; // double
+    public double y; // double
+    public double theta; // double
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::Pose2D";
+    }
+
+    public void Delete()
+    {
     }
 }
 
@@ -578,84 +232,16 @@ public struct std_msgs_UInt32 : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Float64 : IROSMsg
+public struct std_msgs_ColorRGBA : IROSMsg
 {
-    public double data; // double
+    public float r; // float
+    public float g; // float
+    public float b; // float
+    public float a; // float
 
     public string GetMsgType()
     {
-        return "std_msgs::msg::Float64";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Point : IROSMsg
-{
-    public double x; // double
-    public double y; // double
-    public double z; // double
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Point";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_UInt16MultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // ushort
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::UInt16MultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_JoyFeedback : IROSMsg
-{
-    public byte TYPE_LED; // = 0 // byte
-    public byte TYPE_RUMBLE; // = 1 // byte
-    public byte TYPE_BUZZER; // = 2 // byte
-    public byte type; // byte
-    public byte id; // byte
-    public float intensity; // float
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::JoyFeedback";
-    }
-
-    public void Delete()
-    {
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int32 : IROSMsg
-{
-    public int data; // int
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Int32";
+        return "std_msgs::msg::ColorRGBA";
     }
 
     public void Delete()
@@ -705,120 +291,161 @@ public struct std_msgs_Header : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct nav_msgs_GridCells : IROSMsg
+public struct std_msgs_Int8 : IROSMsg
 {
-    public std_msgs_Header header; // std_msgs_Header
-    public float cell_width; // float
-    public float cell_height; // float
-    public CArray cells; // geometry_msgs_Point
+    public sbyte data; // sbyte
 
     public string GetMsgType()
     {
-        return "nav_msgs::msg::GridCells";
+        return "std_msgs::msg::Int8";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_QuaternionStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Quaternion quaternion; // geometry_msgs_Quaternion
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::QuaternionStamped";
     }
 
     public void Delete()
     {
         header.Delete();
-        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_Point>(cells))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(cells.ptr);
-        cells.ptr = IntPtr.Zero;
+        quaternion.Delete();
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Twist : IROSMsg
+public struct sensor_msgs_Illuminance : IROSMsg
 {
-    public geometry_msgs_Vector3 linear; // geometry_msgs_Vector3
-    public geometry_msgs_Vector3 angular; // geometry_msgs_Vector3
+    public std_msgs_Header header; // std_msgs_Header
+    public double illuminance; // double
+    public double variance; // double
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::Twist";
+        return "sensor_msgs::msg::Illuminance";
     }
 
     public void Delete()
     {
-        linear.Delete();
-        angular.Delete();
+        header.Delete();
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Float32MultiArray : IROSMsg
+public struct geometry_msgs_Point : IROSMsg
 {
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // float
+    public double x; // double
+    public double y; // double
+    public double z; // double
 
     public string GetMsgType()
     {
-        return "std_msgs::msg::Float32MultiArray";
+        return "geometry_msgs::msg::Point";
     }
 
     public void Delete()
     {
-        layout.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Int16 : IROSMsg
+{
+    public short data; // short
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Int16";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_Joy : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public CArray axes; // float
+    public CArray buttons; // int
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::Joy";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        ROSInterface.Free(axes.ptr);
+        axes.ptr = IntPtr.Zero;
+        ROSInterface.Free(buttons.ptr);
+        buttons.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_CompressedImage : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public IntPtr format; // IntPtr
+    public CArray data; // byte
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::CompressedImage";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        ROSInterface.Free(format);
+        format = IntPtr.Zero;
         ROSInterface.Free(data.ptr);
         data.ptr = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int16MultiArray : IROSMsg
+public struct geometry_msgs_Vector3 : IROSMsg
 {
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // short
+    public double x; // double
+    public double y; // double
+    public double z; // double
 
     public string GetMsgType()
     {
-        return "std_msgs::msg::Int16MultiArray";
+        return "geometry_msgs::msg::Vector3";
     }
 
     public void Delete()
     {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_TwistStamped : IROSMsg
+public struct std_msgs_UInt64 : IROSMsg
 {
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Twist twist; // geometry_msgs_Twist
+    public ulong data; // ulong
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::TwistStamped";
+        return "std_msgs::msg::UInt64";
     }
 
     public void Delete()
     {
-        header.Delete();
-        twist.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Pose : IROSMsg
-{
-    public geometry_msgs_Point position; // geometry_msgs_Point
-    public geometry_msgs_Quaternion orientation; // geometry_msgs_Quaternion
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Pose";
-    }
-
-    public void Delete()
-    {
-        position.Delete();
-        orientation.Delete();
     }
 }
 
@@ -853,72 +480,707 @@ public struct sensor_msgs_NavSatFix : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_UInt64MultiArray : IROSMsg
+public struct std_msgs_String : IROSMsg
 {
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // ulong
+    public IntPtr data; // IntPtr
 
     public string GetMsgType()
     {
-        return "std_msgs::msg::UInt64MultiArray";
+        return "std_msgs::msg::String";
     }
 
     public void Delete()
     {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
+        ROSInterface.Free(data);
+        data = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int64MultiArray : IROSMsg
+public struct sensor_msgs_ChannelFloat32 : IROSMsg
 {
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // long
+    public IntPtr name; // IntPtr
+    public CArray values; // float
 
     public string GetMsgType()
     {
-        return "std_msgs::msg::Int64MultiArray";
+        return "sensor_msgs::msg::ChannelFloat32";
     }
 
     public void Delete()
     {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
+        ROSInterface.Free(name);
+        name = IntPtr.Zero;
+        ROSInterface.Free(values.ptr);
+        values.ptr = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_PointCloud : IROSMsg
+public struct sensor_msgs_Imu : IROSMsg
 {
     public std_msgs_Header header; // std_msgs_Header
-    public CArray points; // geometry_msgs_Point32
-    public CArray channels; // sensor_msgs_ChannelFloat32
+    public geometry_msgs_Quaternion orientation; // geometry_msgs_Quaternion
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
+    public double[] orientation_covariance; // double
+
+    public geometry_msgs_Vector3 angular_velocity; // geometry_msgs_Vector3
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
+    public double[] angular_velocity_covariance; // double
+
+    public geometry_msgs_Vector3 linear_acceleration; // geometry_msgs_Vector3
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
+    public double[] linear_acceleration_covariance; // double
 
     public string GetMsgType()
     {
-        return "sensor_msgs::msg::PointCloud";
+        return "sensor_msgs::msg::Imu";
     }
 
     public void Delete()
     {
         header.Delete();
-        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_Point32>(points))
+        orientation.Delete();
+        angular_velocity.Delete();
+        linear_acceleration.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_Wrench : IROSMsg
+{
+    public geometry_msgs_Vector3 force; // geometry_msgs_Vector3
+    public geometry_msgs_Vector3 torque; // geometry_msgs_Vector3
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::Wrench";
+    }
+
+    public void Delete()
+    {
+        force.Delete();
+        torque.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_LaserScan : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public float angle_min; // float
+    public float angle_max; // float
+    public float angle_increment; // float
+    public float time_increment; // float
+    public float scan_time; // float
+    public float range_min; // float
+    public float range_max; // float
+    public CArray ranges; // float
+    public CArray intensities; // float
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::LaserScan";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        ROSInterface.Free(ranges.ptr);
+        ranges.ptr = IntPtr.Zero;
+        ROSInterface.Free(intensities.ptr);
+        intensities.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_MultiEchoLaserScan : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public float angle_min; // float
+    public float angle_max; // float
+    public float angle_increment; // float
+    public float time_increment; // float
+    public float scan_time; // float
+    public float range_min; // float
+    public float range_max; // float
+    public CArray ranges; // sensor_msgs_LaserEcho
+    public CArray intensities; // sensor_msgs_LaserEcho
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::MultiEchoLaserScan";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_LaserEcho>(ranges))
         {
             inst.Delete();
         }
 
-        ROSInterface.Free(points.ptr);
-        points.ptr = IntPtr.Zero;
-        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_ChannelFloat32>(channels))
+        ROSInterface.Free(ranges.ptr);
+        ranges.ptr = IntPtr.Zero;
+        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_LaserEcho>(intensities))
         {
             inst.Delete();
         }
 
-        ROSInterface.Free(channels.ptr);
-        channels.ptr = IntPtr.Zero;
+        ROSInterface.Free(intensities.ptr);
+        intensities.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_MultiArrayDimension : IROSMsg
+{
+    public IntPtr label; // IntPtr
+    public uint size; // uint
+    public uint stride; // uint
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::MultiArrayDimension";
+    }
+
+    public void Delete()
+    {
+        ROSInterface.Free(label);
+        label = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Float32 : IROSMsg
+{
+    public float data; // float
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Float32";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_PointField : IROSMsg
+{
+    public byte INT8; // = 1 // byte
+    public byte UINT8; // = 2 // byte
+    public byte INT16; // = 3 // byte
+    public byte UINT16; // = 4 // byte
+    public byte INT32; // = 5 // byte
+    public byte UINT32; // = 6 // byte
+    public byte FLOAT32; // = 7 // byte
+    public byte FLOAT64; // = 8 // byte
+    public IntPtr name; // IntPtr
+    public uint offset; // uint
+    public byte datatype; // byte
+    public uint count; // uint
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::PointField";
+    }
+
+    public void Delete()
+    {
+        ROSInterface.Free(name);
+        name = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_Twist : IROSMsg
+{
+    public geometry_msgs_Vector3 linear; // geometry_msgs_Vector3
+    public geometry_msgs_Vector3 angular; // geometry_msgs_Vector3
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::Twist";
+    }
+
+    public void Delete()
+    {
+        linear.Delete();
+        angular.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_JoyFeedback : IROSMsg
+{
+    public byte TYPE_LED; // = 0 // byte
+    public byte TYPE_RUMBLE; // = 1 // byte
+    public byte TYPE_BUZZER; // = 2 // byte
+    public byte type; // byte
+    public byte id; // byte
+    public float intensity; // float
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::JoyFeedback";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_MultiArrayLayout : IROSMsg
+{
+    public CArray dim; // std_msgs_MultiArrayDimension
+    public uint data_offset; // uint
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::MultiArrayLayout";
+    }
+
+    public void Delete()
+    {
+        foreach (var inst in ROSInterface.GetStructArray<std_msgs_MultiArrayDimension>(dim))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(dim.ptr);
+        dim.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_MagneticField : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Vector3 magnetic_field; // geometry_msgs_Vector3
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
+    public double[] magnetic_field_covariance; // double
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::MagneticField";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        magnetic_field.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Float64 : IROSMsg
+{
+    public double data; // double
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Float64";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_UInt16MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // ushort
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::UInt16MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_Temperature : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public double temperature; // double
+    public double variance; // double
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::Temperature";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_UInt8 : IROSMsg
+{
+    public byte data; // byte
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::UInt8";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_FluidPressure : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public double fluid_pressure; // double
+    public double variance; // double
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::FluidPressure";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_RelativeHumidity : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public double relative_humidity; // double
+    public double variance; // double
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::RelativeHumidity";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct nav_msgs_GridCells : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public float cell_width; // float
+    public float cell_height; // float
+    public CArray cells; // geometry_msgs_Point
+
+    public string GetMsgType()
+    {
+        return "nav_msgs::msg::GridCells";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_Point>(cells))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(cells.ptr);
+        cells.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Int32 : IROSMsg
+{
+    public int data; // int
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Int32";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Int32MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // int
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Int32MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_UInt32MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // uint
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::UInt32MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Byte : IROSMsg
+{
+    public byte data; // byte
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Byte";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Bool : IROSMsg
+{
+    public bool data; // bool
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Bool";
+    }
+
+    public void Delete()
+    {
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct intera_core_msgs_JointCommand : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public int mode; // int
+    public CArray names; // IntPtr
+    public CArray position; // double
+    public CArray velocity; // double
+    public CArray acceleration; // double
+    public CArray effort; // double
+    public int POSITION_MODE; // = 1 // int
+    public int VELOCITY_MODE; // = 2 // int
+    public int TORQUE_MODE; // = 3 // int
+    public int TRAJECTORY_MODE; // = 4 // int
+
+    public string GetMsgType()
+    {
+        return "intera_core_msgs::msg::JointCommand";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        for (int i = 0; i < names.length; i++)
+        {
+            IntPtr ptr = Marshal.ReadIntPtr(names.ptr, Marshal.SizeOf(typeof(IntPtr)) * i);
+            ROSInterface.Free(ptr);
+            ptr = IntPtr.Zero;
+        }
+
+        ROSInterface.Free(names.ptr);
+        names.ptr = IntPtr.Zero;
+        ROSInterface.Free(position.ptr);
+        position.ptr = IntPtr.Zero;
+        ROSInterface.Free(velocity.ptr);
+        velocity.ptr = IntPtr.Zero;
+        ROSInterface.Free(acceleration.ptr);
+        acceleration.ptr = IntPtr.Zero;
+        ROSInterface.Free(effort.ptr);
+        effort.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_PointStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Point point; // geometry_msgs_Point
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::PointStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        point.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_JointState : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public CArray name; // IntPtr
+    public CArray position; // double
+    public CArray velocity; // double
+    public CArray effort; // double
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::JointState";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        for (int i = 0; i < name.length; i++)
+        {
+            IntPtr ptr = Marshal.ReadIntPtr(name.ptr, Marshal.SizeOf(typeof(IntPtr)) * i);
+            ROSInterface.Free(ptr);
+            ptr = IntPtr.Zero;
+        }
+
+        ROSInterface.Free(name.ptr);
+        name.ptr = IntPtr.Zero;
+        ROSInterface.Free(position.ptr);
+        position.ptr = IntPtr.Zero;
+        ROSInterface.Free(velocity.ptr);
+        velocity.ptr = IntPtr.Zero;
+        ROSInterface.Free(effort.ptr);
+        effort.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_Inertia : IROSMsg
+{
+    public double m; // double
+    public geometry_msgs_Vector3 com; // geometry_msgs_Vector3
+    public double ixx; // double
+    public double ixy; // double
+    public double ixz; // double
+    public double iyy; // double
+    public double iyz; // double
+    public double izz; // double
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::Inertia";
+    }
+
+    public void Delete()
+    {
+        com.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_TwistWithCovariance : IROSMsg
+{
+    public geometry_msgs_Twist twist; // geometry_msgs_Twist
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)]
+    public double[] covariance; // double
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::TwistWithCovariance";
+    }
+
+    public void Delete()
+    {
+        twist.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_ByteMultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // byte
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::ByteMultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_PolygonStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Polygon polygon; // geometry_msgs_Polygon
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::PolygonStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        polygon.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_Transform : IROSMsg
+{
+    public geometry_msgs_Vector3 translation; // geometry_msgs_Vector3
+    public geometry_msgs_Quaternion rotation; // geometry_msgs_Quaternion
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::Transform";
+    }
+
+    public void Delete()
+    {
+        translation.Delete();
+        rotation.Delete();
     }
 }
 
@@ -983,557 +1245,28 @@ public struct sensor_msgs_BatteryState : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_QuaternionStamped : IROSMsg
+public struct sensor_msgs_Image : IROSMsg
 {
     public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Quaternion quaternion; // geometry_msgs_Quaternion
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::QuaternionStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        quaternion.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_MultiEchoLaserScan : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public float angle_min; // float
-    public float angle_max; // float
-    public float angle_increment; // float
-    public float time_increment; // float
-    public float scan_time; // float
-    public float range_min; // float
-    public float range_max; // float
-    public CArray ranges; // sensor_msgs_LaserEcho
-    public CArray intensities; // sensor_msgs_LaserEcho
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::MultiEchoLaserScan";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_LaserEcho>(ranges))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(ranges.ptr);
-        ranges.ptr = IntPtr.Zero;
-        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_LaserEcho>(intensities))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(intensities.ptr);
-        intensities.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_CompressedImage : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public IntPtr format; // IntPtr
+    public uint height; // uint
+    public uint width; // uint
+    public IntPtr encoding; // IntPtr
+    public byte is_bigendian; // byte
+    public uint step; // uint
     public CArray data; // byte
 
     public string GetMsgType()
     {
-        return "sensor_msgs::msg::CompressedImage";
+        return "sensor_msgs::msg::Image";
     }
 
     public void Delete()
     {
         header.Delete();
-        ROSInterface.Free(format);
-        format = IntPtr.Zero;
+        ROSInterface.Free(encoding);
+        encoding = IntPtr.Zero;
         ROSInterface.Free(data.ptr);
         data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Wrench : IROSMsg
-{
-    public geometry_msgs_Vector3 force; // geometry_msgs_Vector3
-    public geometry_msgs_Vector3 torque; // geometry_msgs_Vector3
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Wrench";
-    }
-
-    public void Delete()
-    {
-        force.Delete();
-        torque.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_Imu : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Quaternion orientation; // geometry_msgs_Quaternion
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
-    public double[] orientation_covariance; // double
-
-    public geometry_msgs_Vector3 angular_velocity; // geometry_msgs_Vector3
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
-    public double[] angular_velocity_covariance; // double
-
-    public geometry_msgs_Vector3 linear_acceleration; // geometry_msgs_Vector3
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
-    public double[] linear_acceleration_covariance; // double
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::Imu";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        orientation.Delete();
-        angular_velocity.Delete();
-        linear_acceleration.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_CameraInfo : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public uint height; // uint
-    public uint width; // uint
-    public IntPtr distortion_model; // IntPtr
-    public CArray d; // double
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
-    public double[] k; // double
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
-    public double[] r; // double
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
-    public double[] p; // double
-
-    public uint binning_x; // uint
-    public uint binning_y; // uint
-    public sensor_msgs_RegionOfInterest roi; // sensor_msgs_RegionOfInterest
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::CameraInfo";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        ROSInterface.Free(distortion_model);
-        distortion_model = IntPtr.Zero;
-        ROSInterface.Free(d.ptr);
-        d.ptr = IntPtr.Zero;
-        roi.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_RelativeHumidity : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public double relative_humidity; // double
-    public double variance; // double
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::RelativeHumidity";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct nav_msgs_MapMetaData : IROSMsg
-{
-    public builtin_interfaces_Time map_load_time; // builtin_interfaces_Time
-    public float resolution; // float
-    public uint width; // uint
-    public uint height; // uint
-    public geometry_msgs_Pose origin; // geometry_msgs_Pose
-
-    public string GetMsgType()
-    {
-        return "nav_msgs::msg::MapMetaData";
-    }
-
-    public void Delete()
-    {
-        map_load_time.Delete();
-        origin.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Transform : IROSMsg
-{
-    public geometry_msgs_Vector3 translation; // geometry_msgs_Vector3
-    public geometry_msgs_Quaternion rotation; // geometry_msgs_Quaternion
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Transform";
-    }
-
-    public void Delete()
-    {
-        translation.Delete();
-        rotation.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_PoseWithCovariance : IROSMsg
-{
-    public geometry_msgs_Pose pose; // geometry_msgs_Pose
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)]
-    public double[] covariance; // double
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::PoseWithCovariance";
-    }
-
-    public void Delete()
-    {
-        pose.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_Illuminance : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public double illuminance; // double
-    public double variance; // double
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::Illuminance";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int8MultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // sbyte
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Int8MultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct std_msgs_Int32MultiArray : IROSMsg
-{
-    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
-    public CArray data; // int
-
-    public string GetMsgType()
-    {
-        return "std_msgs::msg::Int32MultiArray";
-    }
-
-    public void Delete()
-    {
-        layout.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_PoseStamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Pose pose; // geometry_msgs_Pose
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::PoseStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        pose.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_InertiaStamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Inertia inertia; // geometry_msgs_Inertia
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::InertiaStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        inertia.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_FluidPressure : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public double fluid_pressure; // double
-    public double variance; // double
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::FluidPressure";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_MagneticField : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Vector3 magnetic_field; // geometry_msgs_Vector3
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
-    public double[] magnetic_field_covariance; // double
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::MagneticField";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        magnetic_field.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_PoseArray : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public CArray poses; // geometry_msgs_Pose
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::PoseArray";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_Pose>(poses))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(poses.ptr);
-        poses.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_Vector3Stamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Vector3 vector; // geometry_msgs_Vector3
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::Vector3Stamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        vector.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_LaserScan : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public float angle_min; // float
-    public float angle_max; // float
-    public float angle_increment; // float
-    public float time_increment; // float
-    public float scan_time; // float
-    public float range_min; // float
-    public float range_max; // float
-    public CArray ranges; // float
-    public CArray intensities; // float
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::LaserScan";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        ROSInterface.Free(ranges.ptr);
-        ranges.ptr = IntPtr.Zero;
-        ROSInterface.Free(intensities.ptr);
-        intensities.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_Range : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public byte ULTRASOUND; // = 0 // byte
-    public byte INFRARED; // = 1 // byte
-    public byte radiation_type; // byte
-    public float field_of_view; // float
-    public float min_range; // float
-    public float max_range; // float
-    public float range; // float
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::Range";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_WrenchStamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Wrench wrench; // geometry_msgs_Wrench
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::WrenchStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        wrench.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_PointCloud2 : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public uint height; // uint
-    public uint width; // uint
-    public CArray fields; // sensor_msgs_PointField
-    public bool is_bigendian; // bool
-    public uint point_step; // uint
-    public uint row_step; // uint
-    public CArray data; // byte
-    public bool is_dense; // bool
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::PointCloud2";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_PointField>(fields))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(fields.ptr);
-        fields.ptr = IntPtr.Zero;
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_JointState : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public CArray name; // IntPtr
-    public CArray position; // double
-    public CArray velocity; // double
-    public CArray effort; // double
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::JointState";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        for (int i = 0; i < name.length; i++)
-        {
-            IntPtr ptr = Marshal.ReadIntPtr(name.ptr, Marshal.SizeOf(typeof(IntPtr)) * i);
-            ROSInterface.Free(ptr);
-            ptr = IntPtr.Zero;
-        }
-
-        ROSInterface.Free(name.ptr);
-        name.ptr = IntPtr.Zero;
-        ROSInterface.Free(position.ptr);
-        position.ptr = IntPtr.Zero;
-        ROSInterface.Free(velocity.ptr);
-        velocity.ptr = IntPtr.Zero;
-        ROSInterface.Free(effort.ptr);
-        effort.ptr = IntPtr.Zero;
     }
 }
 
@@ -1581,104 +1314,20 @@ public struct sensor_msgs_TimeReference : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_Temperature : IROSMsg
+public struct geometry_msgs_Vector3Stamped : IROSMsg
 {
     public std_msgs_Header header; // std_msgs_Header
-    public double temperature; // double
-    public double variance; // double
+    public geometry_msgs_Vector3 vector; // geometry_msgs_Vector3
 
     public string GetMsgType()
     {
-        return "sensor_msgs::msg::Temperature";
+        return "geometry_msgs::msg::Vector3Stamped";
     }
 
     public void Delete()
     {
         header.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_TransformStamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public IntPtr child_frame_id; // IntPtr
-    public geometry_msgs_Transform transform; // geometry_msgs_Transform
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::TransformStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        ROSInterface.Free(child_frame_id);
-        child_frame_id = IntPtr.Zero;
-        transform.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct nav_msgs_OccupancyGrid : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public nav_msgs_MapMetaData info; // nav_msgs_MapMetaData
-    public CArray data; // sbyte
-
-    public string GetMsgType()
-    {
-        return "nav_msgs::msg::OccupancyGrid";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        info.Delete();
-        ROSInterface.Free(data.ptr);
-        data.ptr = IntPtr.Zero;
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_PolygonStamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Polygon polygon; // geometry_msgs_Polygon
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::PolygonStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        polygon.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct nav_msgs_Path : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public CArray poses; // geometry_msgs_PoseStamped
-
-    public string GetMsgType()
-    {
-        return "nav_msgs::msg::Path";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_PoseStamped>(poses))
-        {
-            inst.Delete();
-        }
-
-        ROSInterface.Free(poses.ptr);
-        poses.ptr = IntPtr.Zero;
+        vector.Delete();
     }
 }
 
@@ -1701,142 +1350,192 @@ public struct geometry_msgs_Accel : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_TwistWithCovariance : IROSMsg
+public struct std_msgs_Int64MultiArray : IROSMsg
 {
-    public geometry_msgs_Twist twist; // geometry_msgs_Twist
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)]
-    public double[] covariance; // double
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // long
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::TwistWithCovariance";
+        return "std_msgs::msg::Int64MultiArray";
     }
 
     public void Delete()
     {
-        twist.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_Image : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public uint height; // uint
-    public uint width; // uint
-    public IntPtr encoding; // IntPtr
-    public byte is_bigendian; // byte
-    public uint step; // uint
-    public CArray data; // byte
-
-    public string GetMsgType()
-    {
-        return "sensor_msgs::msg::Image";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        ROSInterface.Free(encoding);
-        encoding = IntPtr.Zero;
+        layout.Delete();
         ROSInterface.Free(data.ptr);
         data.ptr = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_AccelWithCovariance : IROSMsg
+public struct geometry_msgs_Pose : IROSMsg
 {
-    public geometry_msgs_Accel accel; // geometry_msgs_Accel
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)]
-    public double[] covariance; // double
+    public geometry_msgs_Point position; // geometry_msgs_Point
+    public geometry_msgs_Quaternion orientation; // geometry_msgs_Quaternion
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::AccelWithCovariance";
+        return "geometry_msgs::msg::Pose";
     }
 
     public void Delete()
     {
-        accel.Delete();
+        position.Delete();
+        orientation.Delete();
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_PointStamped : IROSMsg
+public struct nav_msgs_MapMetaData : IROSMsg
 {
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Point point; // geometry_msgs_Point
+    public builtin_interfaces_Time map_load_time; // builtin_interfaces_Time
+    public float resolution; // float
+    public uint width; // uint
+    public uint height; // uint
+    public geometry_msgs_Pose origin; // geometry_msgs_Pose
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::PointStamped";
+        return "nav_msgs::msg::MapMetaData";
+    }
+
+    public void Delete()
+    {
+        map_load_time.Delete();
+        origin.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_CameraInfo : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public uint height; // uint
+    public uint width; // uint
+    public IntPtr distortion_model; // IntPtr
+    public CArray d; // double
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
+    public double[] k; // double
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)]
+    public double[] r; // double
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
+    public double[] p; // double
+
+    public uint binning_x; // uint
+    public uint binning_y; // uint
+    public sensor_msgs_RegionOfInterest roi; // sensor_msgs_RegionOfInterest
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::CameraInfo";
     }
 
     public void Delete()
     {
         header.Delete();
-        point.Delete();
+        ROSInterface.Free(distortion_model);
+        distortion_model = IntPtr.Zero;
+        ROSInterface.Free(d.ptr);
+        d.ptr = IntPtr.Zero;
+        roi.Delete();
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_AccelWithCovarianceStamped : IROSMsg
+public struct sensor_msgs_PointCloud2 : IROSMsg
 {
     public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_AccelWithCovariance accel; // geometry_msgs_AccelWithCovariance
+    public uint height; // uint
+    public uint width; // uint
+    public CArray fields; // sensor_msgs_PointField
+    public bool is_bigendian; // bool
+    public uint point_step; // uint
+    public uint row_step; // uint
+    public CArray data; // byte
+    public bool is_dense; // bool
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::AccelWithCovarianceStamped";
+        return "sensor_msgs::msg::PointCloud2";
     }
 
     public void Delete()
     {
         header.Delete();
-        accel.Delete();
+        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_PointField>(fields))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(fields.ptr);
+        fields.ptr = IntPtr.Zero;
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct sensor_msgs_Joy : IROSMsg
+public struct std_msgs_Int8MultiArray : IROSMsg
 {
-    public std_msgs_Header header; // std_msgs_Header
-    public CArray axes; // float
-    public CArray buttons; // int
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // sbyte
 
     public string GetMsgType()
     {
-        return "sensor_msgs::msg::Joy";
+        return "std_msgs::msg::Int8MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_Range : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public byte ULTRASOUND; // = 0 // byte
+    public byte INFRARED; // = 1 // byte
+    public byte radiation_type; // byte
+    public float field_of_view; // float
+    public float min_range; // float
+    public float max_range; // float
+    public float range; // float
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::Range";
     }
 
     public void Delete()
     {
         header.Delete();
-        ROSInterface.Free(axes.ptr);
-        axes.ptr = IntPtr.Zero;
-        ROSInterface.Free(buttons.ptr);
-        buttons.ptr = IntPtr.Zero;
     }
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_PoseWithCovarianceStamped : IROSMsg
+public struct std_msgs_UInt64MultiArray : IROSMsg
 {
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_PoseWithCovariance pose; // geometry_msgs_PoseWithCovariance
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // ulong
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::PoseWithCovarianceStamped";
+        return "std_msgs::msg::UInt64MultiArray";
     }
 
     public void Delete()
     {
-        header.Delete();
-        pose.Delete();
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
     }
 }
 
@@ -1891,6 +1590,368 @@ public struct sensor_msgs_MultiDOFJointState : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_AccelStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Accel accel; // geometry_msgs_Accel
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::AccelStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        accel.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_UInt8MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // byte
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::UInt8MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct sensor_msgs_PointCloud : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public CArray points; // geometry_msgs_Point32
+    public CArray channels; // sensor_msgs_ChannelFloat32
+
+    public string GetMsgType()
+    {
+        return "sensor_msgs::msg::PointCloud";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_Point32>(points))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(points.ptr);
+        points.ptr = IntPtr.Zero;
+        foreach (var inst in ROSInterface.GetStructArray<sensor_msgs_ChannelFloat32>(channels))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(channels.ptr);
+        channels.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_TwistStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Twist twist; // geometry_msgs_Twist
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::TwistStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        twist.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_PoseStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Pose pose; // geometry_msgs_Pose
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::PoseStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        pose.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Int16MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // short
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Int16MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_TwistWithCovarianceStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_TwistWithCovariance twist; // geometry_msgs_TwistWithCovariance
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::TwistWithCovarianceStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        twist.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Float32MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // float
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Float32MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_WrenchStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Wrench wrench; // geometry_msgs_Wrench
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::WrenchStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        wrench.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct std_msgs_Float64MultiArray : IROSMsg
+{
+    public std_msgs_MultiArrayLayout layout; // std_msgs_MultiArrayLayout
+    public CArray data; // double
+
+    public string GetMsgType()
+    {
+        return "std_msgs::msg::Float64MultiArray";
+    }
+
+    public void Delete()
+    {
+        layout.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct nav_msgs_Path : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public CArray poses; // geometry_msgs_PoseStamped
+
+    public string GetMsgType()
+    {
+        return "nav_msgs::msg::Path";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_PoseStamped>(poses))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(poses.ptr);
+        poses.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_InertiaStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_Inertia inertia; // geometry_msgs_Inertia
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::InertiaStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        inertia.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_TransformStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public IntPtr child_frame_id; // IntPtr
+    public geometry_msgs_Transform transform; // geometry_msgs_Transform
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::TransformStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        ROSInterface.Free(child_frame_id);
+        child_frame_id = IntPtr.Zero;
+        transform.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_PoseArray : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public CArray poses; // geometry_msgs_Pose
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::PoseArray";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        foreach (var inst in ROSInterface.GetStructArray<geometry_msgs_Pose>(poses))
+        {
+            inst.Delete();
+        }
+
+        ROSInterface.Free(poses.ptr);
+        poses.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct nav_msgs_OccupancyGrid : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public nav_msgs_MapMetaData info; // nav_msgs_MapMetaData
+    public CArray data; // sbyte
+
+    public string GetMsgType()
+    {
+        return "nav_msgs::msg::OccupancyGrid";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        info.Delete();
+        ROSInterface.Free(data.ptr);
+        data.ptr = IntPtr.Zero;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_AccelWithCovariance : IROSMsg
+{
+    public geometry_msgs_Accel accel; // geometry_msgs_Accel
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)]
+    public double[] covariance; // double
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::AccelWithCovariance";
+    }
+
+    public void Delete()
+    {
+        accel.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_PoseWithCovariance : IROSMsg
+{
+    public geometry_msgs_Pose pose; // geometry_msgs_Pose
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)]
+    public double[] covariance; // double
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::PoseWithCovariance";
+    }
+
+    public void Delete()
+    {
+        pose.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct geometry_msgs_AccelWithCovarianceStamped : IROSMsg
+{
+    public std_msgs_Header header; // std_msgs_Header
+    public geometry_msgs_AccelWithCovariance accel; // geometry_msgs_AccelWithCovariance
+
+    public string GetMsgType()
+    {
+        return "geometry_msgs::msg::AccelWithCovarianceStamped";
+    }
+
+    public void Delete()
+    {
+        header.Delete();
+        accel.Delete();
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct nav_msgs_Odometry : IROSMsg
 {
     public std_msgs_Header header; // std_msgs_Header
@@ -1914,37 +1975,19 @@ public struct nav_msgs_Odometry : IROSMsg
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_TwistWithCovarianceStamped : IROSMsg
+public struct geometry_msgs_PoseWithCovarianceStamped : IROSMsg
 {
     public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_TwistWithCovariance twist; // geometry_msgs_TwistWithCovariance
+    public geometry_msgs_PoseWithCovariance pose; // geometry_msgs_PoseWithCovariance
 
     public string GetMsgType()
     {
-        return "geometry_msgs::msg::TwistWithCovarianceStamped";
+        return "geometry_msgs::msg::PoseWithCovarianceStamped";
     }
 
     public void Delete()
     {
         header.Delete();
-        twist.Delete();
-    }
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct geometry_msgs_AccelStamped : IROSMsg
-{
-    public std_msgs_Header header; // std_msgs_Header
-    public geometry_msgs_Accel accel; // geometry_msgs_Accel
-
-    public string GetMsgType()
-    {
-        return "geometry_msgs::msg::AccelStamped";
-    }
-
-    public void Delete()
-    {
-        header.Delete();
-        accel.Delete();
+        pose.Delete();
     }
 }
