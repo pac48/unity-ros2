@@ -15,111 +15,20 @@ find_package(Eigen3 REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(rosidl_default_runtime REQUIRED)
-
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
-set(generated_sources src/generated/sub_pub_interface.cpp
-    src/generated/builtin_interfaces_Duration.cpp
-    src/generated/builtin_interfaces_Time.cpp
-    src/generated/geometry_msgs_Accel.cpp
-    src/generated/geometry_msgs_AccelStamped.cpp
-    src/generated/geometry_msgs_AccelWithCovariance.cpp
-    src/generated/geometry_msgs_AccelWithCovarianceStamped.cpp
-    src/generated/geometry_msgs_Inertia.cpp
-    src/generated/geometry_msgs_InertiaStamped.cpp
-    src/generated/geometry_msgs_Point32.cpp
-    src/generated/geometry_msgs_Point.cpp
-    src/generated/geometry_msgs_PointStamped.cpp
-    src/generated/geometry_msgs_Polygon.cpp
-    src/generated/geometry_msgs_PolygonStamped.cpp
-    src/generated/geometry_msgs_Pose2D.cpp
-    src/generated/geometry_msgs_PoseArray.cpp
-    src/generated/geometry_msgs_Pose.cpp
-    src/generated/geometry_msgs_PoseStamped.cpp
-    src/generated/geometry_msgs_PoseWithCovariance.cpp
-    src/generated/geometry_msgs_PoseWithCovarianceStamped.cpp
-    src/generated/geometry_msgs_Quaternion.cpp
-    src/generated/geometry_msgs_QuaternionStamped.cpp
-    src/generated/geometry_msgs_Transform.cpp
-    src/generated/geometry_msgs_TransformStamped.cpp
-    src/generated/geometry_msgs_Twist.cpp
-    src/generated/geometry_msgs_TwistStamped.cpp
-    src/generated/geometry_msgs_TwistWithCovariance.cpp
-    src/generated/geometry_msgs_TwistWithCovarianceStamped.cpp
-    src/generated/geometry_msgs_Vector3.cpp
-    src/generated/geometry_msgs_Vector3Stamped.cpp
-    src/generated/geometry_msgs_Wrench.cpp
-    src/generated/geometry_msgs_WrenchStamped.cpp
-    src/generated/nav_msgs_GridCells.cpp
-    src/generated/nav_msgs_MapMetaData.cpp
-    src/generated/nav_msgs_OccupancyGrid.cpp
-    src/generated/nav_msgs_Odometry.cpp
-    src/generated/nav_msgs_Path.cpp
-    src/generated/sensor_msgs_BatteryState.cpp
-    src/generated/sensor_msgs_CameraInfo.cpp
-    src/generated/sensor_msgs_ChannelFloat32.cpp
-    src/generated/sensor_msgs_CompressedImage.cpp
-    src/generated/sensor_msgs_FluidPressure.cpp
-    src/generated/sensor_msgs_Illuminance.cpp
-    src/generated/sensor_msgs_Image.cpp
-    src/generated/sensor_msgs_Imu.cpp
-    src/generated/sensor_msgs_JointState.cpp
-    src/generated/sensor_msgs_Joy.cpp
-    src/generated/sensor_msgs_JoyFeedbackArray.cpp
-    src/generated/sensor_msgs_JoyFeedback.cpp
-    src/generated/sensor_msgs_LaserEcho.cpp
-    src/generated/sensor_msgs_LaserScan.cpp
-    src/generated/sensor_msgs_MagneticField.cpp
-    src/generated/sensor_msgs_MultiDOFJointState.cpp
-    src/generated/sensor_msgs_MultiEchoLaserScan.cpp
-    src/generated/sensor_msgs_NavSatFix.cpp
-    src/generated/sensor_msgs_NavSatStatus.cpp
-    src/generated/sensor_msgs_PointCloud2.cpp
-    src/generated/sensor_msgs_PointCloud.cpp
-    src/generated/sensor_msgs_PointField.cpp
-    src/generated/sensor_msgs_Range.cpp
-    src/generated/sensor_msgs_RegionOfInterest.cpp
-    src/generated/sensor_msgs_RelativeHumidity.cpp
-    src/generated/sensor_msgs_Temperature.cpp
-    src/generated/sensor_msgs_TimeReference.cpp
-    src/generated/std_msgs_Bool.cpp
-    src/generated/std_msgs_Byte.cpp
-    src/generated/std_msgs_ByteMultiArray.cpp
-    src/generated/std_msgs_Char.cpp
-    src/generated/std_msgs_ColorRGBA.cpp
-    src/generated/std_msgs_Empty.cpp
-    src/generated/std_msgs_Float32.cpp
-    src/generated/std_msgs_Float32MultiArray.cpp
-    src/generated/std_msgs_Float64.cpp
-    src/generated/std_msgs_Float64MultiArray.cpp
-    src/generated/std_msgs_Header.cpp
-    src/generated/std_msgs_Int16.cpp
-    src/generated/std_msgs_Int16MultiArray.cpp
-    src/generated/std_msgs_Int32.cpp
-    src/generated/std_msgs_Int32MultiArray.cpp
-    src/generated/std_msgs_Int64.cpp
-    src/generated/std_msgs_Int64MultiArray.cpp
-    src/generated/std_msgs_Int8.cpp
-    src/generated/std_msgs_Int8MultiArray.cpp
-    src/generated/std_msgs_MultiArrayDimension.cpp
-    src/generated/std_msgs_MultiArrayLayout.cpp
-    src/generated/std_msgs_String.cpp
-    src/generated/std_msgs_UInt16.cpp
-    src/generated/std_msgs_UInt16MultiArray.cpp
-    src/generated/std_msgs_UInt32.cpp
-    src/generated/std_msgs_UInt32MultiArray.cpp
-    src/generated/std_msgs_UInt64.cpp
-    src/generated/std_msgs_UInt64MultiArray.cpp
-    src/generated/std_msgs_UInt8.cpp
-    src/generated/std_msgs_UInt8MultiArray.cpp
-    src/generated/intera_core_msgs_JointCommand.cpp
+file(GLOB generated_sources
+    "src/generated/*.cpp"
     )
 
-add_subdirectory(script/common_interfaces/intera_core_msgs EXCLUDE_FROM_ALL)
-
-
 add_library(ROSInterface SHARED src/interface.cpp)
+target_link_libraries(ROSInterface ${intera_core_msgs__rosidl_generator_cpp})
 add_library(ROSInterfaceGenerated SHARED ${generated_sources})
+
+
+set(message_packages
+    intera_core_msgs
+    )
 set(target_list ROSInterfaceGenerated)
 
 foreach (target IN LISTS target_list)
@@ -160,7 +69,9 @@ foreach (target IN LISTS target_list)
   target_include_directories(${target} PUBLIC ${tracetools_INCLUDE_DIRS})
 
   # add all generated messages
-  target_include_directories(${target} PUBLIC ${intera_core_msgs_BINARY_DIR}/rosidl_generator_cpp)
+  foreach (message_package ${message_packages})
+    target_include_directories(${target} PUBLIC ros_generated_messages/include/${message_package})
+  endforeach ()
 
   # link all rclcpp libs needed
   target_link_libraries(${target} PUBLIC ${builtin_interfaces_LIBRARIES})
@@ -207,18 +118,27 @@ install(TARGETS ROSInterfaceGenerated
     LIBRARY DESTINATION lib
     )
 
-set(type_support_libs
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_generator_c.so
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_c.so
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_cpp.so
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_fastrtps_c.so
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_fastrtps_cpp.so
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_introspection_c.so
-    ${intera_core_msgs_BINARY_DIR}/libintera_core_msgs__rosidl_typesupport_introspection_cpp.so
-    )
+foreach (message_package ${message_packages})
+  set(msgs_BINARY_DIR ${CMAKE_SOURCE_DIR}/ros_generated_messages/lib/)
+  set(type_support_libs
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_generator_c.so
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_typesupport_c.so
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_typesupport_cpp.so
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_typesupport_fastrtps_c.so
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_typesupport_fastrtps_cpp.so
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_typesupport_introspection_c.so
+      ${msgs_BINARY_DIR}/lib${message_package}__rosidl_typesupport_introspection_cpp.so
+      )
 
-foreach (type_support_lib ${type_support_libs})
-  target_link_libraries(ROSInterface PUBLIC ${type_support_lib})
+  foreach (type_support_lib ${type_support_libs})
+    set_property(SOURCE ${type_support_lib} PROPERTY GENERATED 1)
+    target_link_libraries(ROSInterface PUBLIC ${type_support_lib})
+  endforeach ()
+
+  install(FILES ${type_support_libs}
+      DESTINATION lib
+      )
+
 endforeach ()
 
 set_target_properties(ROSInterface PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
@@ -226,10 +146,6 @@ install(TARGETS ROSInterface
     LIBRARY DESTINATION lib
     )
 
-
-install(FILES ${type_support_libs}
-    DESTINATION lib
-    )
 
 add_executable(ROSInterfaceTest test.cpp)
 target_include_directories(ROSInterfaceTest PUBLIC include)

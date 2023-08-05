@@ -3,3 +3,4 @@ cmake-build*
 build*
 include/generated/*
 src/generated/*
+ros_generated_messages/
