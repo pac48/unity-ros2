@@ -7,7 +7,7 @@ public class SawyerJointStatePublisher : MonoBehaviour
 {
     public ArticulationBody articulatedBody;
     public Transform base_link;
-    public string topicName;
+    public string topicName = "robot/joint_states";
     public float publishMessageFrequency = 1.0f / 60.0f;
 
     private Hashtable name2ind = new Hashtable();
@@ -53,7 +53,7 @@ public class SawyerJointStatePublisher : MonoBehaviour
             int offset = 0;
             if (!articulatedBody.immovable)
             {
-                offset += 5;
+                offset += 6;
             }
 
             foreach (var ind in indexArr)
