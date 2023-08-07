@@ -1,7 +1,5 @@
 using System;
 using System.Runtime.InteropServices;
-using RosMessageTypes.Sensor;
-using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -16,6 +14,7 @@ public class ImagePublisher : MonoBehaviour
     public int width = 640;
     public int height = 480;
     public float publishMessageFrequency = 1.0f / 20.0f;
+    public int antiAliasing = 1;
     private sensor_msgs_Image msg;
     private sensor_msgs_CameraInfo info_msg;
 
@@ -42,7 +41,7 @@ public class ImagePublisher : MonoBehaviour
         //Get the vertical field of view of the camera taking into account any physical camera settings.
         Assert.IsFalse(ImageCamera.usePhysicalProperties);
         float verticalFieldOfView = ImageCamera.fieldOfView;
-        
+
         double focalLengthInPixels =
             (height / 2.0) / Math.Tan((Mathf.Deg2Rad * verticalFieldOfView) / 2.0);
         //Focal Length (x)
@@ -53,7 +52,7 @@ public class ImagePublisher : MonoBehaviour
         //Axis Skew, Assuming none.
         double s = 0.0;
         //http://ksimek.github.io/2013/08/13/intrinsic/
-        info_msg.k = new []
+        info_msg.k = new[]
         {
             fX, s, cX,
             0, fY, cY,
@@ -87,7 +86,6 @@ public class ImagePublisher : MonoBehaviour
 
         info_msg.binning_x = 0;
         info_msg.binning_y = 0;
-        
     }
 
     void Start()
@@ -103,16 +101,15 @@ public class ImagePublisher : MonoBehaviour
         msg.encoding = ROSInterface.AllocateString("rgba8");
         msg.step = (uint)(4 * width);
         msg.is_bigendian = 0;
-        
+
         GetCameraInfo();
-        
+
         bool supportsAntialiasing = true;
         bool needsRescale = false;
         var depth = 32;
         var format = RenderTextureFormat.Default;
         var readWrite = RenderTextureReadWrite.Default;
-        var antiAliasing = (supportsAntialiasing) ? Mathf.Max(1, QualitySettings.antiAliasing) : 1;
-
+        // var antiAliasing = (supportsAntialiasing) ? Mathf.Max(1, QualitySettings.antiAliasing) : 1;
         finalRT = RenderTexture.GetTemporary(width, height, depth, format, readWrite, antiAliasing);
     }
 

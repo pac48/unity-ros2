@@ -76,7 +76,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
+  m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -105,10 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6bce7d649a13b45975c74f6a715e3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  should_publish: 0
   topicName: unity_camera/depth/image_raw
+  infoTopicName: unity_camera/depth/camera_info
   ImageCamera: {fileID: 7252630075398532527}
-  FrameId: unity_camera/depth_frame
+  opticalLink: {fileID: 0}
   width: 640
   height: 480
   publishMessageFrequency: 0.05

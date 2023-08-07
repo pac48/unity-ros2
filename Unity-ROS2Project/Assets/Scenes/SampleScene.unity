@@ -1113,6 +1113,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: d435
       objectReference: {fileID: 0}
+    - target: {fileID: 9103916747527022116, guid: 48185b1998d7d143a9e5ffe375d8ccc8, type: 3}
+      propertyPath: width
+      value: 3840
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103916747527022116, guid: 48185b1998d7d143a9e5ffe375d8ccc8, type: 3}
+      propertyPath: height
+      value: 2160
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103916747527022116, guid: 48185b1998d7d143a9e5ffe375d8ccc8, type: 3}
+      propertyPath: topicName
+      value: camera/color/image_raw_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103916747527022116, guid: 48185b1998d7d143a9e5ffe375d8ccc8, type: 3}
+      propertyPath: antiAliasing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103916747527022116, guid: 48185b1998d7d143a9e5ffe375d8ccc8, type: 3}
+      propertyPath: infoTopicName
+      value: camera/color/camera_info_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103916747527022116, guid: 48185b1998d7d143a9e5ffe375d8ccc8, type: 3}
+      propertyPath: publishMessageFrequency
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1339,11 +1363,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 857264009505124144, guid: f1ef1ba28e1eb2aad87ec0f7cd1d04c0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.657
+      value: -0.372
       objectReference: {fileID: 0}
     - target: {fileID: 857264009505124144, guid: f1ef1ba28e1eb2aad87ec0f7cd1d04c0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.264
+      value: 1.224
       objectReference: {fileID: 0}
     - target: {fileID: 857264009505124144, guid: f1ef1ba28e1eb2aad87ec0f7cd1d04c0, type: 3}
       propertyPath: m_LocalPosition.z
