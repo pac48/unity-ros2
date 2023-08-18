@@ -17,7 +17,6 @@ public class SawyerController : MonoBehaviour
     private int[] indexArr;
     private float[] command;
     private float[] posArr;
-    private List<float> prev_pos;
 
     void Start()
     {
@@ -36,7 +35,7 @@ public class SawyerController : MonoBehaviour
         indexArr = indexes.ToArray();
         command = new float[indexArr.Length-1+offset];
         var pos = new List<float>();
-        articulatedBody.GetJointPositions(pos);
+        articulatedBody.GetDriveTargets(pos);
         posArr = pos.ToArray();
     }
 
