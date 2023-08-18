@@ -64,10 +64,10 @@ public class SawyerController : MonoBehaviour
             for (int i = 0; i < namesArr.Length; i++)
             {
                 {
-                    name = namesArr[i];
-                    if (name2ind.Contains(name))
+                    var jointName = namesArr[i];
+                    if (name2ind.Contains(jointName))
                     {
-                        var tmp = (int) name2ind[name];
+                        var tmp = (int) name2ind[jointName];
                         if (Math.Abs(velocityArr[i])  < 0.0001)
                         {
                             velocityArr[i] = 0;
