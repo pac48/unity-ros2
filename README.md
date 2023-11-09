@@ -2,10 +2,10 @@
 https://github.com/pac48/unity-ros2.git?path=/com.pac48.unity.unity-ros2
 
 # generate c++ messages
-cpp --header_dir ~/Downloads/unity-ros2/ROSInterface/include/generated --src_dir ~/Downloads/unity-ros2/ROSInterface/src/generated
+~/Downloads/unity-ros2/ROSInterface/script/generate_messages.py cpp --header_dir ~/Downloads/unity-ros2/ROSInterface/include/generated --src_dir ~/Downloads/unity-ros2/ROSInterface/src/generated
 
 # generate c# messages
-c# --csharp_dir ~/Downloads/unity-ros2/com.pac48.unity.unity-ros2/Editor/ROSInterface
+~/Downloads/unity-ros2/ROSInterface/script/generate_messages.py c# --csharp_dir ~/Downloads/unity-ros2/com.pac48.unity.unity-ros2/Editor/ROSInterface
 
 # Unity UPM Package Template.
 

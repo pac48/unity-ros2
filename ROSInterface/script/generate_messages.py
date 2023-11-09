@@ -140,7 +140,7 @@ def convert_messages(create_struct, known_conversions):
     message_packages = ['std_msgs', 'geometry_msgs', 'sensor_msgs', 'nav_msgs', 'builtin_interfaces', 'intera_core_msgs']
     for package in message_packages:
 
-        directory_path = f'common_interfaces/{package}/msg/'
+        directory_path = f'interfaces/{package}/msg/'
         file_list = os.listdir(directory_path)
         for file in file_list:
             msg_file = os.path.join(directory_path, file)
