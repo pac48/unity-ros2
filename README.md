@@ -1,6 +1,12 @@
 ### Install from a Git URL
 https://github.com/pac48/unity-ros2.git?path=/com.pac48.unity.unity-ros2
 
+# generate c++ messages
+cpp --header_dir ~/Downloads/unity-ros2/ROSInterface/include/generated --src_dir ~/Downloads/unity-ros2/ROSInterface/src/generated
+
+# generate c# messages
+c# --csharp_dir ~/Downloads/unity-ros2/com.pac48.unity.unity-ros2/Editor/ROSInterface
+
 # Unity UPM Package Template.
 
 The purpose of this template is to give you a head start when creating a new package for Unity. You'll find the repository structure description below as well as why it was built this way.

@@ -1048,7 +1048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3526575521162274475, guid: d9f685a2423d33949bad5a325a4a18b8, type: 3}
       propertyPath: topicName
-      value: joint_states_sim
+      value: joint_states
       objectReference: {fileID: 0}
     - target: {fileID: 3526575521162274475, guid: d9f685a2423d33949bad5a325a4a18b8, type: 3}
       propertyPath: publishMessageFrequency
@@ -1124,7 +1124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8240985070442375739, guid: d9f685a2423d33949bad5a325a4a18b8, type: 3}
       propertyPath: topicName
-      value: /robot/limb/right/joint_command_sim
+      value: /robot/limb/right/joint_command
       objectReference: {fileID: 0}
     - target: {fileID: 8515267479421414887, guid: d9f685a2423d33949bad5a325a4a18b8, type: 3}
       propertyPath: m_ParentAnchorPosition.z
